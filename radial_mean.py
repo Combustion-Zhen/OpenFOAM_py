@@ -10,19 +10,11 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
+# some constants
 # time
 time        = '0.16'
-# extract variable and location names
-#varname=[]
-#locname=[]
-#for filename in glob.glob('surfaces/{t}/*Prime2Mean_xD*.raw'.format(time)):
-#    pos_1 = filename.find('Prime2Mean_xD')
-#    varname.append
-
-var_names   = ('Z','T')
 rms         = 'rms'
 # constant for files
-file_loc    = ('075','15','30','45')
 # bin for average, bin number means the number of bins on the range rx_limit
 rx_limit    = 0.3
 bin_num     = 100
@@ -30,6 +22,25 @@ bin_num     = 100
 bin_size    = 0.001/bin_num
 # diameter of the inlet jet
 D           = 0.0072
+
+# extract variable and location names
+var_names=[]
+file_loc=[]
+foldername='surfaces/{t}/'.format(t=time)
+filename_int_var='Mean_xD'
+filename_int_rms='Prime2Mean_xD'
+# variables
+for filename in glob.glob('{0}*{1}*.raw'.format(foldername,filename_int_rms)):
+    pos = filename.find('Prime2Mean_xD')
+    var_names.append(filename[len(foldername):pos])
+var_names=list(set(var_names))
+# the velocity has three components, remove it at first
+var_names.remove('U')
+# x/D
+file_str='{0}{1}{2}'.format(foldername,var_names[0],filename_int_var)
+for filename in glob.glob('{0}*.raw'.format(file_str)):
+    pos = filename.find('.raw')
+    file_loc.append(filename[len(file_str):pos])
 
 # load data
 for length in file_loc:
