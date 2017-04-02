@@ -60,9 +60,10 @@ fig, axes = plt.subplots(len(var),len(xD),
 for v in var:
     for x in xD:
         axes[var.index(v),xD.index(x)].plot(data[x]['r'],data[x][v],'-b',
-                                            expr[x]['r'],expr[x][v],'ok',
-                                            linewidth=1.5)
-    #temperature has a unit
+                                            label='Sim.',linewidth=1.5)
+        axes[var.index(v),xD.index(x)].plot(expr[x]['r'],expr[x][v],'ok',
+                                            label='Exp.',linewidth=1.5)
+    # ylabel, temperature has a unit
     if v == 'T':
         axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}\rangle\;(\mathrm{{K}})$".format(v),
                                         fontsize=ftsize)
@@ -84,6 +85,9 @@ for x in xD:
 plt.xlim(xmin, xmax)
 plt.xticks((0.0,0.1,0.2))
 
+# legend
+axes[0,len(xD)-1].legend(fontsize=ftsize,numpoints=1,frameon=False)
+
 # set margins
 plt.subplots_adjust(left    =margin_left/plot_width,
                     bottom  =margin_bottom/plot_height,
@@ -92,19 +96,52 @@ plt.subplots_adjust(left    =margin_left/plot_width,
                     wspace  =space_width/plot_width,
                     hspace  =space_height/plot_height)
 
-# labels
-#plt.xlabel("$r/x$",fontsize=ftsize)
-#plt.ylabel("$T\;(\mathrm{K})$",fontsize=ftsize)
-
-# axis limits, ticks, and labels
-#plt.axis([xmin, xmax, ymin, ymax])
-#plt.xticks((0.0,0.2,0.4,0.6,0.8,1.0))
-#plt.yticks(range(300,2301,500))
+# save plot
 plt.savefig('radial_ave.eps')
 
 # plot the rms
 # generate the figure
-#fig, axes = plt.subplots(len(var),len(xD),
-#                         sharex='all',sharey='row',
-#                         figsize=cm2inch(plot_width, plot_height))
-#plt.savefig('radial_rms.eps')
+fig, axes = plt.subplots(len(var),len(xD),
+                         sharex='all',sharey='row',
+                         figsize=cm2inch(plot_width, plot_height))
+# generate the axis
+for v in var:
+    for x in xD:
+        axes[var.index(v),xD.index(x)].plot(data[x]['r'],data[x][v+'rms'],'-b',
+                                            label='Sim.',linewidth=1.5)
+        axes[var.index(v),xD.index(x)].plot(expr[x]['r'],expr[x][v+'rms'],'ok',
+                                            label='Exp.',linewidth=1.5)
+    # ylabel, temperature has a unit
+    if v == 'T':
+        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}^{{\prime\prime 2}}\rangle\;(\mathrm{{K}})$".format(v),
+                                        fontsize=ftsize)
+    elif v == 'Z':
+        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}^{{\prime\prime 2}}\rangle$".format(v),
+                                        fontsize=ftsize)
+    else:
+        axes[var.index(v),0].set_ylabel(r"$\langle\tilde Y^{{\prime\prime 2}}\rangle\;{0}$".format(v),
+                                        fontsize=ftsize)
+# title and xlabel
+for x in xD:
+    #title
+    axes[0,xD.index(x)].set_title('$x/D={0:.2g}$'.format(x),
+                                  fontsize=ftsize)
+    #r/x
+    axes[len(var)-1,xD.index(x)].set_xlabel('$r/x$',
+                                            fontsize=ftsize)
+
+plt.xlim(xmin, xmax)
+plt.xticks((0.0,0.1,0.2))
+
+# legend
+axes[0,len(xD)-1].legend(fontsize=ftsize,numpoints=1,frameon=False)
+
+# set margins
+plt.subplots_adjust(left    =margin_left/plot_width,
+                    bottom  =margin_bottom/plot_height,
+                    right   =1.0-margin_right/plot_width,
+                    top     =1.0-margin_top/plot_height,
+                    wspace  =space_width/plot_width,
+                    hspace  =space_height/plot_height)
+
+plt.savefig('radial_rms.eps')
