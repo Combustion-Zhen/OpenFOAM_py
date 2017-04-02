@@ -5,15 +5,14 @@ import glob
 import math
 import string
 import csv
-# suppress the display of matplotlib.pyplot
-import matplotlib as mpl
-mpl.use('Agg')
-import matplotlib.pyplot as plt
 
 # some constants
 # time
 time        = '0.16'
 rms         = 'rms'
+#data_key    = 'FACE_DATA'
+# POINT_DATA has spurs
+data_key    = 'POINT_DATA'
 # constant for files
 # bin for average, bin number means the number of bins on the range rx_limit
 rx_limit    = 0.3
@@ -48,15 +47,15 @@ for length in file_loc:
     loc_file={}
     #line_num=0
     for var in var_names:
-        filename_mean = 'surfaces/{t}/{v}Mean_xD{loc}.raw'.format(t=time,v=var,loc=length)
-        filename_rms  = 'surfaces/{t}/{v}Prime2Mean_xD{loc}.raw'.format(t=time,v=var,loc=length)
+        filename_mean = '{f}{v}Mean_xD{loc}.raw'.format(f=foldername,v=var,loc=length)
+        filename_rms  = '{f}{v}Prime2Mean_xD{loc}.raw'.format(f=foldername,v=var,loc=length)
         fid_m = open(filename_mean,'r')
         fid_r = open(filename_rms,'r')
         # two lines of comments
         line=fid_r.readline()
         line=fid_m.readline()
         if var is var_names[0]:
-            line_num=int(line[line.find('FACE_DATA')+9:])
+            line_num=int(line[line.find(data_key)+len(data_key):])
         fid_r.readline()
         fid_m.readline()
         # file
@@ -100,6 +99,9 @@ for length in file_loc:
             #print(loc_data['r'][i])
             for var in data_names:
                 loc_data[var][i]/=float(loc_data['r'][i])
+                #square root for the rms
+                if 'rms' in var:
+                    loc_data[var][i]=math.sqrt(loc_data[var][i])
             loc_data['r'][i]=(float(i)*bin_size+bin_size/2.0)/D
         else:
             for var in data_names:
@@ -125,8 +127,3 @@ for length in file_loc:
             for var in loc_data.keys():
                 data_row.update({var:'{:e}'.format(loc_data[var][i])})
             writer.writerow(data_row)
-
-# cm inch transfer for matplotlib
-def cm2inch(*tupl):
-    inch = 2.54
-    return tuple(i/inch for i in tupl)
