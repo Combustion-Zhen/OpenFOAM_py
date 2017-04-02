@@ -1,6 +1,7 @@
 # Zhen Lu, 31/03/2017
 # load and process flameletFoam results
-# mean and rms versus r/x
+# mean and rms versus r/D
+import glob
 import math
 import string
 import csv
@@ -9,19 +10,26 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
-# time and variable
-time        = 0.16
+# time
+time        = '0.16'
+# extract variable and location names
+#varname=[]
+#locname=[]
+#for filename in glob.glob('surfaces/{t}/*Prime2Mean_xD*.raw'.format(time)):
+#    pos_1 = filename.find('Prime2Mean_xD')
+#    varname.append
+
 var_names   = ('Z','T')
 rms         = 'rms'
 # constant for files
 file_loc    = ('075','15','30','45')
 # bin for average, bin number means the number of bins on the range rx_limit
-rx_limit    = 0.5
+rx_limit    = 0.3
 bin_num     = 100
-bin_size    = rx_limit/bin_num
+# 'r' in the unit of mm
+bin_size    = 0.001/bin_num
 # diameter of the inlet jet
 D           = 0.0072
-# 'r' is in the unit of r/x
 
 # load data
 for length in file_loc:
@@ -29,8 +37,8 @@ for length in file_loc:
     loc_file={}
     #line_num=0
     for var in var_names:
-        filename_mean = 'surfaces/{t}/{v}Mean_xD{loc}.raw'.format(t=str(time),v=var,loc=length)
-        filename_rms  = 'surfaces/{t}/{v}Prime2Mean_xD{loc}.raw'.format(t=str(time),v=var,loc=length)
+        filename_mean = 'surfaces/{t}/{v}Mean_xD{loc}.raw'.format(t=time,v=var,loc=length)
+        filename_rms  = 'surfaces/{t}/{v}Prime2Mean_xD{loc}.raw'.format(t=time,v=var,loc=length)
         fid_m = open(filename_mean,'r')
         fid_r = open(filename_rms,'r')
         # two lines of comments
@@ -46,13 +54,18 @@ for length in file_loc:
         # data
         loc_data.update({var:[]})
         loc_data.update({var+rms:[]})
+    # update the bin number
+    x_pos=float('{0}.{1}'.format(length[:2],length[2:]))*D
+    bin_num=int(x_pos*rx_limit/bin_size)
+    #print(bin_num)
     # make the initial values
-    for i in range(bin_num):
-        # it is firstly used to store the point count
-        for var in loc_data.keys():
-            loc_data[var].append(0.0)
     data_names=loc_data.keys()
     data_names.remove('r')
+    for i in range(bin_num):
+        # it is firstly used to store the point count
+        loc_data['r'].append(0)
+        for var in data_names:
+            loc_data[var].append(0.0)
     # read in and calculate the sum
     for i in range(line_num):
         for var in data_names:
@@ -61,9 +74,9 @@ for length in file_loc:
             [x, y, z, data]=line.split()
             # data of radius
             if var is data_names[0]:
-                #calculate the nondimensional radius
-                r=math.sqrt(float(x)**2+float(y)**2)/float(z)
-            if r < rx_limit:
+                #calculate the radius
+                r=math.sqrt(float(x)**2+float(y)**2)
+            if r/x_pos < rx_limit:
                 r_idx=int(r//bin_size)
                 # to be divided by the number of vars
                 loc_data['r'][r_idx]+=1
@@ -72,9 +85,11 @@ for length in file_loc:
     for i in range(bin_num-1,-1,-1):
         loc_data['r'][i]/=len(data_names)
         if loc_data['r'][i] != 0:
+            # it should be the number of grids in \theta
+            #print(loc_data['r'][i])
             for var in data_names:
-                loc_data[var][i]/=loc_data['r'][i]
-            loc_data['r'][i]=float(i)*bin_size+bin_size/2.0
+                loc_data[var][i]/=float(loc_data['r'][i])
+            loc_data['r'][i]=(float(i)*bin_size+bin_size/2.0)/D
         else:
             for var in data_names:
                 del loc_data[var][i]
