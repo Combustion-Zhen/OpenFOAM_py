@@ -1,7 +1,8 @@
 # Zhen Lu, 2017 <albert.lz07@gmail.com>
 # plot Sandia Flame results, this version is only for browse, specific settings for different variables are required for journal artworks
 import glob
-from file_read import csv_read, cm2inch
+import csv
+from file_read import csv_read, cm2inch, SF_read
 # suppress the display of matplotlib.pyplot
 import matplotlib as mpl
 mpl.use('Agg')
@@ -16,17 +17,18 @@ ymax = 1.0
 # import data
 xD=[]
 data={}
+expr={}
 for filename in glob.glob('mean_xD*.csv'):
     pos = filename.find('.csv')
     z   = float('{0}.{1}'.format(filename[7:9],filename[9:pos]))
     xD.append(z)
     data.update({z:csv_read(filename)})
+    expr.update({z:SF_read('D.stat',filename[7:pos],'ave')})
 for x in xD:
     for i in range(len(data[x]['r'])):
         data[x]['r'][i]/=x
-    #data[x]['r'] would not change because it is a copy
-    #for r in data[x]['r']:
-    #    r = float(r)/x
+    for i in range(len(expr[x]['r'])):
+        expr[x]['r'][i]/=x
 
 # plot
 # use TEX for interpreter
@@ -57,9 +59,8 @@ fig, axes = plt.subplots(len(var),len(xD),
 # generate the axis
 for v in var:
     for x in xD:
-        axes[var.index(v),xD.index(x)].plot(data[x]['r'],
-                                            data[x][v],
-                                            '-b',
+        axes[var.index(v),xD.index(x)].plot(data[x]['r'],data[x][v],'-b',
+                                            expr[x]['r'],expr[x][v],'ok',
                                             linewidth=1.5)
     #temperature has a unit
     if v == 'T':
@@ -99,4 +100,11 @@ plt.subplots_adjust(left    =margin_left/plot_width,
 #plt.axis([xmin, xmax, ymin, ymax])
 #plt.xticks((0.0,0.2,0.4,0.6,0.8,1.0))
 #plt.yticks(range(300,2301,500))
-plt.savefig('radial_T_xD075.eps')
+plt.savefig('radial_ave.eps')
+
+# plot the rms
+# generate the figure
+#fig, axes = plt.subplots(len(var),len(xD),
+#                         sharex='all',sharey='row',
+#                         figsize=cm2inch(plot_width, plot_height))
+#plt.savefig('radial_rms.eps')
