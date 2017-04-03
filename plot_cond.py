@@ -91,4 +91,6 @@ plt.subplots_adjust(left    =margin_left/plot_width,
                     hspace  =space_height/plot_height)
 
 # save plot
+plt.savefig('radial_cnd.png',dpt=400)
+plt.savefig('radial_cnd.pdf')
 plt.savefig('radial_cnd.eps')

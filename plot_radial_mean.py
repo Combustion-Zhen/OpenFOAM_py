@@ -149,4 +149,6 @@ plt.subplots_adjust(left    =margin_left/plot_width,
                     wspace  =space_width/plot_width,
                     hspace  =space_height/plot_height)
 
+plt.savefig('radial_rms.png',dpi=400)
+plt.savefig('radial_rms.pdf')
 plt.savefig('radial_rms.eps')
