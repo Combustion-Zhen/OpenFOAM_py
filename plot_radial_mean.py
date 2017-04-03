@@ -47,7 +47,8 @@ space_width     =0.0
 space_height    =1.0
 ftsize          =12
 # total height determined by the number of vars
-plot_height     =(subplot_h+space_height)*float(len(var))-space_height+margin_top+margin_bottom
+plot_height     =(subplot_h+space_height)*float(len(var)) \
+                 -space_height+margin_top+margin_bottom
 # min and max of axis
 xmin = 0.0
 xmax = 0.3
@@ -86,7 +87,9 @@ plt.xlim(xmin, xmax)
 plt.xticks((0.0,0.1,0.2))
 
 # legend
-axes[0,len(xD)-1].legend(fontsize=ftsize,numpoints=1,frameon=False)
+axes[0,len(xD)-1].legend(fontsize=ftsize,
+                         numpoints=1,
+                         frameon=False)
 
 # set margins
 plt.subplots_adjust(left    =margin_left/plot_width,
@@ -134,7 +137,9 @@ plt.xlim(xmin, xmax)
 plt.xticks((0.0,0.1,0.2))
 
 # legend
-axes[0,len(xD)-1].legend(fontsize=ftsize,numpoints=1,frameon=False)
+axes[0,len(xD)-1].legend(fontsize=ftsize,
+                         numpoints=1,
+                         frameon=False)
 
 # set margins
 plt.subplots_adjust(left    =margin_left/plot_width,

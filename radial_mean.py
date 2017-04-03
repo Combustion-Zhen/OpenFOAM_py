@@ -3,24 +3,20 @@
 # mean and rms versus r/D
 import glob
 import math
-import string
 import csv
 
 # some constants
 # time
 time        = '0.16'
-rms         = 'rms'
-#data_key    = 'FACE_DATA'
-# POINT_DATA has spurs
-data_key    = 'POINT_DATA'
 # constant for files
-# bin for average, bin number means the number of bins on the range rx_limit
+# bin for average
 rx_limit    = 0.3
 bin_num     = 100
 # 'r' in the unit of mm
 bin_size    = 0.001/bin_num
 # diameter of the inlet jet
 D           = 0.0072
+rms         = 'rms'
 
 # extract variable and location names
 var_names=[]
@@ -55,7 +51,7 @@ for length in file_loc:
         line=fid_r.readline()
         line=fid_m.readline()
         if var is var_names[0]:
-            line_num=int(line[line.find(data_key)+len(data_key):])
+            line_num=int(line.strip().split()[3])
         fid_r.readline()
         fid_m.readline()
         # file
