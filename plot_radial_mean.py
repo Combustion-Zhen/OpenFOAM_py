@@ -1,7 +1,6 @@
 # Zhen Lu, 2017 <albert.lz07@gmail.com>
 # plot Sandia Flame results, this version is only for browse, specific settings for different variables are required for journal artworks
 import glob
-import csv
 from file_read import csv_read, cm2inch, SF_read
 # suppress the display of matplotlib.pyplot
 import matplotlib as mpl
@@ -11,8 +10,6 @@ import matplotlib.pyplot as plt
 # data to plot
 # two vars at least, because axes would be 1D vector for one var
 var  = ['Z','T']
-ymin = 0.0
-ymax = 1.0
 
 # import data
 xD=[]
@@ -52,10 +49,11 @@ plot_height     =(subplot_h+space_height)*float(len(var)) \
 # min and max of axis
 xmin = 0.0
 xmax = 0.3
+xtick= (0.0,0.1,0.2)
 
 # generate the figure
 fig, axes = plt.subplots(len(var),len(xD),
-                         sharex='all',sharey='row',
+                         sharex='col',sharey='row',
                          figsize=cm2inch(plot_width, plot_height))
 # generate the axis
 for v in var:
@@ -82,9 +80,10 @@ for x in xD:
     #r/x
     axes[len(var)-1,xD.index(x)].set_xlabel('$r/x$',
                                             fontsize=ftsize)
+    axes[len(var)-1,xD.index(x)].set_xlim(xmin,xmax)
+    axes[len(var)-1,xD.index(x)].set_xticks(xtick)
 
-plt.xlim(xmin, xmax)
-plt.xticks((0.0,0.1,0.2))
+axes[len(var)-1,len(xD)-1].set_xticks(xtick+(xmax,))
 
 # legend
 axes[0,len(xD)-1].legend(fontsize=ftsize,
@@ -105,7 +104,7 @@ plt.savefig('radial_ave.eps')
 # plot the rms
 # generate the figure
 fig, axes = plt.subplots(len(var),len(xD),
-                         sharex='all',sharey='row',
+                         sharex='col',sharey='row',
                          figsize=cm2inch(plot_width, plot_height))
 # generate the axis
 for v in var:
@@ -132,9 +131,10 @@ for x in xD:
     #r/x
     axes[len(var)-1,xD.index(x)].set_xlabel('$r/x$',
                                             fontsize=ftsize)
+    axes[len(var)-1,xD.index(x)].set_xlim(xmin,xmax)
+    axes[len(var)-1,xD.index(x)].set_xticks(xtick)
 
-plt.xlim(xmin, xmax)
-plt.xticks((0.0,0.1,0.2))
+axes[len(var)-1,len(xD)-1].set_xticks(xtick+(xmax,))
 
 # legend
 axes[0,len(xD)-1].legend(fontsize=ftsize,

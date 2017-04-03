@@ -46,6 +46,8 @@ def SF_read(flame,xD,data_type):
             # using Z for mixture fraction, replace F
             elif var_names[i][0] == 'F':
                 var_names[i] = 'Z'+var_names[i][1:]
+                if var_names[i] == 'Zmass':
+                    var_names[i] = 'Z'
             # remove Y before species
             elif var_names[i][0] == 'Y':
                 var_names[i] = var_names[i][1:]
