@@ -5,8 +5,10 @@ Most scripts are for Sandia Flames. For journal artworks, you may need specific 
 
 Execution sequence:
 
-reconstructPar
-flameletFoamPost
-sample
-python radial_mean.py / radial_cnd_scat.py
-python plot_radial_mean.py / plot_cond.py / plot_scat.py
+reconstructPar;
+flameletFoamPost;
+sample;
+python radial_mean.py / radial_cnd_scat.py;
+python plot_radial_mean.py / plot_cond.py / plot_scat.py;
+
+folder_correct.py to round the folder names of those runtime save
