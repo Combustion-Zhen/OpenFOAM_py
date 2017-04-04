@@ -5,12 +5,16 @@ import glob
 import csv
 import math
 
-# constants
-time        = '0.25'
 # bin size for mixture fraction, it is 0.02 for experiment
 bin_num     = 100
 bin_size    = 1.0/bin_num
 rx_limit    = 0.3
+
+# pick the latest time automatically
+calc_time=[]
+for filename in glob.glob('surfaces/*'):
+    calc_time.append(float(filename[9:]))
+time=str(max(calc_time))
 
 # extract variable and location names
 var_names   = []

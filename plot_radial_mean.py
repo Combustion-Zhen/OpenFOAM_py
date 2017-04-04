@@ -100,6 +100,8 @@ plt.subplots_adjust(left    =margin_left/plot_width,
                     hspace  =space_height/plot_height)
 
 # save plot
+plt.savefig('radial_ave.png',dpi=400)
+plt.savefig('radial_ave.pdf')
 plt.savefig('radial_ave.eps')
 
 # plot the rms

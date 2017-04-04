@@ -5,9 +5,6 @@ import glob
 import math
 import csv
 
-# some constants
-# time
-time        = '0.25'
 # constant for files
 # bin for average
 rx_limit    = 0.3
@@ -17,6 +14,12 @@ bin_size    = 0.001/bin_num
 # diameter of the inlet jet
 D           = 0.0072
 rms         = 'rms'
+
+# pick the latest time automatically
+calc_time=[]
+for filename in glob.glob('surfaces/*'):
+    calc_time.append(float(filename[9:]))
+time=str(max(calc_time))
 
 # extract variable and location names
 var_names=[]
