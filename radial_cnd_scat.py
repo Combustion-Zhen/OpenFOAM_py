@@ -6,7 +6,7 @@ import csv
 import math
 
 # constants
-time        = '0.16'
+time        = '0.25'
 # bin size for mixture fraction, it is 0.02 for experiment
 bin_num     = 100
 bin_size    = 1.0/bin_num

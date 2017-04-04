@@ -7,7 +7,7 @@ import csv
 
 # some constants
 # time
-time        = '0.16'
+time        = '0.25'
 # constant for files
 # bin for average
 rx_limit    = 0.3
@@ -30,7 +30,8 @@ for filename in glob.glob('{0}*{1}*.raw'.format(foldername,filename_int_rms)):
     var_names.append(filename[len(foldername):pos])
 var_names=list(set(var_names))
 # the velocity has three components, remove it at first
-var_names.remove('U')
+if 'U' in var_names:
+    var_names.remove('U')
 # x/D
 file_str='{0}{1}{2}'.format(foldername,var_names[0],filename_int_var)
 for filename in glob.glob('{0}*.raw'.format(file_str)):

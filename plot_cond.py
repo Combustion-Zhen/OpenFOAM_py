@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 # data to plot
 # two vars at least, because axes would be 1D vector for one var
-var  = ['T','CO']
+var  = ['T','CO2']
 
 # import data
 xD=[]
@@ -21,6 +21,7 @@ for filename in glob.glob('cond_*.csv'):
     xD.append(z)
     data.update({z:csv_read(filename)})
     expr.update({z:SF_read('D.stat',filename[7:pos],'cnd')})
+xD.sort()
 
 # plot
 # use TEX for interpreter

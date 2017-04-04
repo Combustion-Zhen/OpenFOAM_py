@@ -21,6 +21,7 @@ for filename in glob.glob('mean_xD*.csv'):
     xD.append(z)
     data.update({z:csv_read(filename)})
     expr.update({z:SF_read('D.stat',filename[7:pos],'ave')})
+xD.sort()
 for x in xD:
     for i in range(len(data[x]['r'])):
         data[x]['r'][i]/=x

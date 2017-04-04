@@ -21,6 +21,7 @@ for filename in glob.glob('scat*.csv'):
     xD.append(z)
     data.update({z:csv_read(filename)})
     expr.update({z:SF_read('D.scat',filename[7:pos],'all')})
+xD.sort()
 
 # plot
 # use TEX for interpreter
