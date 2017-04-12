@@ -60,3 +60,16 @@ def SF_read(flame,xD,data_type):
             for i in range(len(var_names)):
                 expr[var_names[i]].append(float(exp_data[i]))
     return expr
+
+def OF_read_scalar(filename):
+    data=[]
+    with open(filename,'r') as file_OF:
+        line=''
+        while 'internalField' not in line:
+            #skip head lines
+            line=file_OF.readline().strip()
+        num_data=int(file_OF.readline().strip())
+        file_OF.readline()
+        for i in range(num_data):
+            data.append(float(file_OF.readline().strip()))
+    return data

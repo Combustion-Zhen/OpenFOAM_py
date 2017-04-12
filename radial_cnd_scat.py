@@ -23,7 +23,7 @@ foldername  = 'surfaces/{t}/'.format(t=time)
 str_mean    = 'Mean'
 # variables
 for filename in glob.glob('{0}*.raw'.format(foldername)):
-    if str_mean not in filename:
+    if str_mean not in filename and '_xD' in filename:
         var_names.append(filename[len(foldername):filename.find('_xD')])
 var_names=list(set(var_names))
 # must have mixture fraction Z
