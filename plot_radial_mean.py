@@ -118,13 +118,13 @@ for v in var:
                                             label='Exp.',linewidth=1.5)
     # ylabel, temperature has a unit
     if v == 'T':
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}^{{\prime\prime 2}}\rangle\;(\mathrm{{K}})$".format(v),
+        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}^{{\prime\prime 2}}\rangle^{{1/2}}\;(\mathrm{{K}})$".format(v),
                                         fontsize=ftsize)
     elif v == 'Z':
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}^{{\prime\prime 2}}\rangle$".format(v),
+        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}^{{\prime\prime 2}}\rangle^{{1/2}}$".format(v),
                                         fontsize=ftsize)
     else:
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde Y^{{\prime\prime 2}}\rangle\;{0}$".format(v),
+        axes[var.index(v),0].set_ylabel(r"$\langle\tilde Y^{{\prime\prime 2}}\rangle^{{1/2}}\;{0}$".format(v),
                                         fontsize=ftsize)
 # title and xlabel
 for x in xD:
