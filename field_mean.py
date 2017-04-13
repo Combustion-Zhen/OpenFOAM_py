@@ -42,6 +42,9 @@ for i in range(len(z)):
     field_data['r'].append(float('{0:.3g}'.format(r)))
     field_data['z'].append(float('{0:.3g}'.format(z[i])))
     rz.append((field_data['r'][i],field_data['z'][i]))
+# check the number of r and z points
+print(len(set(field_data['r'])))
+print(len(set(field_data['z'])))
 rz=list(set(rz))
 
 field_mean={}

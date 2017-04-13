@@ -1,5 +1,14 @@
+# Zhen Lu, 12/04/2017
+# load and process flameletFoam results
+# instantaneous field
+import glob
+import math
+import csv
+from file_read import OF_read_scalar
+
 # constant, diameter of the jet
-D = 0.0072
+D           = 0.0072
+r_criterion = 1.0e-6
 
 # pick the latest time
 calc_time=[]
@@ -32,12 +41,13 @@ for var in var_names:
         fid.readline()
         for line in fid:
             line_data = line.strip().split()
-            if var is var_names[0]:
-                r_inst = float('{:3g}'.format(float(line_data[1])))
-                z_inst = float('{:3g}'.format(float(line_data[2])))
-                field_inst['r'].append(r_inst/D)
-                field_inst['z'].append(z_inst/D)
-            field_inst[var].append(float(line_data[3]))
+            r = float('{:.3g}'.format(float(line_data[1])))
+            if abs(r) > r_criterion:
+                field_inst[var].append(float(line_data[3]))
+                if var is var_names[0]:
+                    z = float('{:.3g}'.format(float(line_data[2])))
+                    field_inst['r'].append(r/D)
+                    field_inst['z'].append(z/D)
 # check the number of r and z points
 print(len(set(field_inst['r'])))
 print(len(set(field_inst['z'])))
@@ -51,5 +61,4 @@ with open('inst_field.csv','w') as csvfile:
         for var in field_inst.keys():
             data_row.update({var:'{:e}'.format(field_inst[var][i])})
         writer.writerow(data_row)
-
 
