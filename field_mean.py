@@ -23,8 +23,9 @@ foldername      ='surfaces/{t}/'.format(t=time)
 filename_inst   ='_xnormal.raw'
 # variables
 for filename in glob.glob('{0}*{1}'.format(foldername,filename_inst)):
-    pos = filename.find(filename_inst)
-    var_names.append(filename[len(foldername):pos])
+    if 'Mean' not in filename:
+        pos = filename.find(filename_inst)
+        var_names.append(filename[len(foldername):pos])
 # the velocity has three components, remove it at first
 if 'U' in var_names:
     var_names.remove('U')
