@@ -67,11 +67,11 @@ clb_height      =subplot_height-clb_bottom
 fig = plt.figure(figsize=cm2inch(plot_width,plot_height))
 
 # create the first axes for instantaneous plot
-ax0 = plt.axes([margin_left/plot_width,
-                margin_bottom/plot_height,
-                2.0*subplot_width/plot_width,
-                subplot_height/plot_height],
-                aspect='equal')
+ax0 = fig.add_axes([margin_left/plot_width,
+                    margin_bottom/plot_height,
+                    2.0*subplot_width/plot_width,
+                    subplot_height/plot_height],
+                    aspect='equal')
 ax0.contourf(ri,zi,vi,60,
              vmin=vmin,vmax=vmax)
 ax0.contour(ri,zi,Zi,[0.351,],
