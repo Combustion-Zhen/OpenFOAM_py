@@ -2,8 +2,8 @@
 # plot Sandia Flame results, the 2D contour
 from file_read import csv_read, cm2inch
 # suppress the display of matplotlib.pyplot
-#import matplotlib as mpl
-#mpl.use('Agg')
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 # variable to be plot
