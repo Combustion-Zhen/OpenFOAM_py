@@ -17,7 +17,7 @@ do
 done
 ## copy the python post-processing scripts
 cd postProcessing
-cp ~/OpenFOAM/py_scripts/* .
+cp $HOME/$WM_PROJECT/py_scripts/* .
 python radial_mean_digit.py
 python radial_cnd_scat.py
 python field_inst.py
