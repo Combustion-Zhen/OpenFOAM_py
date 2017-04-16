@@ -5,6 +5,8 @@ import glob
 import csv
 import math
 
+# print task
+print('Take conditional mean with respect to filtered mixture fraction')
 # bin size for mixture fraction, it is 0.02 for experiment
 bin_num     = 100
 bin_size    = 1.0/bin_num

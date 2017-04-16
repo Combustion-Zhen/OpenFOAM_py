@@ -5,6 +5,8 @@ import glob
 import math
 import csv
 
+# print task
+print('Take radial mean for *_xD*.raw files')
 # constant for files
 # bin for average
 rx_limit    = 0.3
@@ -42,7 +44,8 @@ for filename in glob.glob('{0}*.raw'.format(file_str)):
 # load data
 for length in file_loc:
     # get the x by x/D
-    x_pos   =float('{0}.{1}'.format(length[:2],length[2:]))*D
+    xD_val  =float('{0}.{1}'.format(length[:2],length[2:]))
+    x_pos   =xD_val*D
     r       =[]
     loc_file={}
     loc_mean={}
@@ -63,7 +66,7 @@ for length in file_loc:
                     r.append(float('{:.3g}'.format(math.sqrt(x**2+y**2)/D)))
     # check the number of points to be averaged
     r_set=sorted(list(set(r)))
-    print(len(r_set))
+    print('{0} points on radial direction for x/D: {1}'.format(len(r_set),xD_val))
     #print(sorted(list(r_set)))
     for r_val in r_set:
         loc_mean.update({(r_val,'count'):0})

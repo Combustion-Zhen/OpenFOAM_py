@@ -6,6 +6,8 @@ import math
 import csv
 from file_read import OF_read_scalar
 
+# print task
+print('Gather slicing data for contour plot of instantaneous field')
 # constant, diameter of the jet
 D           = 0.0072
 r_criterion = 1.0e-6
@@ -49,8 +51,8 @@ for var in var_names:
                     field_inst['r'].append(r/D)
                     field_inst['z'].append(z/D)
 # check the number of r and z points
-print(len(set(field_inst['r'])))
-print(len(set(field_inst['z'])))
+print('{0} points on radial direction'.format(len(set(field_inst['r']))))
+print('{0} points on axial direction'.format(len(set(field_inst['z']))))
 
 # write to csv
 with open('inst_field.csv','w') as csvfile:
