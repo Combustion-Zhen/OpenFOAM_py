@@ -4,7 +4,6 @@
 import glob
 import math
 import csv
-from file_read import OF_read_scalar
 
 # print task
 print('Process the instantaneous snapshot')

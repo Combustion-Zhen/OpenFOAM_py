@@ -4,7 +4,7 @@
 import glob
 import math
 import csv
-from file_read import OF_read_scalar
+from file_read import comp_read_scalar
 
 # constant, diameter of the jet
 D = 0.0072
@@ -32,9 +32,9 @@ if 'U' in var_names:
 field_data={'r':[],'z':[]}
 # load coordinate information
 print('Reading coordinates')
-x = OF_read_scalar('{0}ccx'.format(foldername))
-y = OF_read_scalar('{0}ccy'.format(foldername))
-z = OF_read_scalar('{0}ccz'.format(foldername))
+x = comp_read_scalar('{0}ccx'.format(foldername))
+y = comp_read_scalar('{0}ccy'.format(foldername))
+z = comp_read_scalar('{0}ccz'.format(foldername))
 rz=[]
 for i in range(len(z)):
     r = math.sqrt(x[i]**2+y[i]**2)
@@ -59,12 +59,12 @@ for i in range(len(z)):
 # read in data
 for var in var_names:
     print('Reading avaraged data: {0}'.format(var))
-    data_var=OF_read_scalar('{0}{1}{2}'.format(foldername,
-                                               var,
-                                               filename_int_var))
-    data_rms=OF_read_scalar('{0}{1}{2}'.format(foldername,
-                                               var,
-                                               filename_int_rms))
+    data_var=comp_read_scalar('{0}{1}{2}'.format(foldername,
+                                                 var,
+                                                 filename_int_var))
+    data_rms=comp_read_scalar('{0}{1}{2}'.format(foldername,
+                                                 var,
+                                                 filename_int_rms))
     # sum
     for i in range(len(z)):
         field_mean[(field_data['r'][i],field_data['z'][i],var)]+=data_var[i]
