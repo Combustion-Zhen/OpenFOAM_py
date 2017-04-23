@@ -1,7 +1,9 @@
 # Zhen Lu, 2017 <albert.lz07@gmail.com>
-# plot Sandia Flame results, this version is only for browse, specific settings for different variables are required for journal artworks
+# plot Sandia Flame results, this version is only for browse, specific
+# settings for different variables are required for journal artworks
 import glob
-from file_read import csv_read, cm2inch, SF_read
+import numpy as np
+import file_read as fr
 # suppress the display of matplotlib.pyplot
 import matplotlib as mpl
 mpl.use('Agg')
@@ -17,16 +19,18 @@ data={}
 expr={}
 for filename in glob.glob('mean_xD*.csv'):
     pos = filename.find('.csv')
-    z   = float('{0}.{1}'.format(filename[7:9],filename[9:pos]))
+    xD_name = filename[7:pos]
+    z   = fr.z_str_to_num(xD_name)
     xD.append(z)
-    data.update({z:csv_read(filename)})
-    expr.update({z:SF_read('D.stat',filename[7:pos],'ave')})
+    data.update({z:np.genfromtxt(filename,
+                                 delimiter=',',
+                                 names=True)})
+    exp_name='../../../pmCDEFarchives/pmD.stat/D{}.Yave'.format(xD_name)
+    expr.update({z:fr.sf_expr_read(exp_name)})
 xD.sort()
 for x in xD:
-    for i in range(len(data[x]['r'])):
-        data[x]['r'][i]/=x
-    for i in range(len(expr[x]['r'])):
-        expr[x]['r'][i]/=x
+    data[x]['r'] /= x
+    expr[x]['r'] /= x
 
 # plot
 # use TEX for interpreter
@@ -55,7 +59,7 @@ xtick= (0.0,0.1,0.2)
 # generate the figure
 fig, axes = plt.subplots(len(var),len(xD),
                          sharex='col',sharey='row',
-                         figsize=cm2inch(plot_width, plot_height))
+                         figsize=fr.cm2inch(plot_width, plot_height))
 # generate the axis
 for v in var:
     for x in xD:
@@ -108,7 +112,7 @@ plt.savefig('radial_ave.eps')
 # generate the figure
 fig, axes = plt.subplots(len(var),len(xD),
                          sharex='col',sharey='row',
-                         figsize=cm2inch(plot_width, plot_height))
+                         figsize=fr.cm2inch(plot_width, plot_height))
 # generate the axis
 for v in var:
     for x in xD:
