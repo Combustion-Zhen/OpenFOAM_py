@@ -1,7 +1,12 @@
-#Zhen Lu, 03/04/2017 <albert.lz07@gmail.com>
-# plot Sandia Flame results, as title, the conditional mean at different x/D
+"""
+Zhen Lu, 03/04/2017 <albert.lz07@gmail.com>
+modified 23/04/2017
+plot Sandia Flame results, as title, 
+the conditional mean at different x/D
+"""
 import glob
-from file_read import csv_read, cm2inch, SF_read
+import numpy as np
+import file_read as fr
 # suppress the display of matplotlib.pyplot
 import matplotlib as mpl
 mpl.use('Agg')
@@ -12,16 +17,20 @@ import matplotlib.pyplot as plt
 var  = ['T','CO2']
 
 # import data
-xD=[]
+xD_value=[]
 data={}
 expr={}
 for filename in glob.glob('cond_*.csv'):
     pos = filename.find('.csv')
-    z   = float('{0}.{1}'.format(filename[7:9],filename[9:pos]))
-    xD.append(z)
-    data.update({z:csv_read(filename)})
-    expr.update({z:SF_read('D.stat',filename[7:pos],'cnd')})
-xD.sort()
+    xD = filename[7:pos]
+    z = fr.z_str_to_num(xD)
+    xD_value.append(z)
+    data.update({z:np.genfromtxt(filename,
+                                 delimiter=',',
+                                 names=True)})
+    exp_name='../../../pmCDEFarchives/pmD.stat/D{}.Ycnd'.format(xD)
+    expr.update({z:fr.sf_expr_read(exp_name)})
+xD_value.sort()
 
 # plot
 # use TEX for interpreter
@@ -40,48 +49,50 @@ space_width     =0.0
 space_height    =1.0
 ftsize          =12
 # total height determined by the number of vars
-plot_height     =(subplot_h+space_height)*float(len(var)) \
-                 -space_height+margin_top+margin_bottom
+plot_height     =((subplot_h+space_height)*float(len(var))
+                  -space_height+margin_top+margin_bottom)
 # min and max of axis
 xmin = 0.0
 xmax = 1.0
-xtick= (0.0,0.2,0.4,0.6,0.8)
+xtick= tuple(np.arange(xmin,xmax,0.2))
 
 # generate the figure
-fig, axes = plt.subplots(len(var),len(xD),
+fig, axes = plt.subplots(len(var),len(xD_value),
                          sharex='col',sharey='row',
-                         figsize=cm2inch(plot_width, plot_height))
+                         figsize=fr.cm2inch(plot_width, plot_height))
 # generate the axis
-for v in var:
-    for x in xD:
-        axes[var.index(v),xD.index(x)].plot(data[x]['Z'],data[x][v],'-b',
-                                            label='Sim.',linewidth=1.5)
-        axes[var.index(v),xD.index(x)].plot(expr[x]['Z'],expr[x][v],'.k',
-                                            label='Exp.',linewidth=1.5)
+for i,v in enumerate(var):
+    for j,z in enumerate(xD_value):
+        axes[i,j].plot(data[z]['Z'],data[z][v],'-b',
+                       label='Sim.',linewidth=1.5)
+        axes[i,j].plot(expr[z]['Z'],expr[z][v],'.k',
+                       label='Exp.',linewidth=1.5)
     # ylabel, temperature has a unit
     if v == 'T':
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}\vert\tilde Z\rangle\;(\mathrm{{K}})$".format(v),
-                                        fontsize=ftsize)
+        str_label=(r"$\langle\tilde{{T}}\vert\tilde Z"
+                   r"\rangle\;(\mathrm{{K}})$")
     else:
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde Y\vert\tilde Z\rangle\;{0}$".format(v),
-                                        fontsize=ftsize)
+        str_label=(r"$\langle\tilde Y_{\mathrm{"
+                   +v
+                   +r"}}\vert\tilde Z\rangle$")
+    axes[i,0].set_ylabel(str_label,fontsize=ftsize)
 # title and xlabel
-for x in xD:
+for j,z in enumerate(xD_value):
     #title
-    axes[0,xD.index(x)].set_title('$x/D={0:.2g}$'.format(x),
-                                  fontsize=ftsize)
-    axes[len(var)-1,xD.index(x)].set_xlabel(r'$\tilde Z$',
-                                            fontsize=ftsize)
-    axes[len(var)-1,xD.index(x)].set_xlim(xmin,xmax)
-    axes[len(var)-1,xD.index(x)].set_xticks(xtick)
+    axes[0,j].set_title('$x/D={0:.2g}$'.format(z),
+                        fontsize=ftsize)
+    axes[-1,j].set_xlabel(r'$\tilde Z$',
+                          fontsize=ftsize)
+    axes[-1,j].set_xlim(xmin,xmax)
+    axes[-1,j].set_xticks(xtick)
 
-axes[len(var)-1,len(xD)-1].set_xticks(xtick+(xmax,))
+axes[-1,-1].set_xticks(xtick+(xmax,))
 
 # legend
-axes[0,len(xD)-1].legend(fontsize   =ftsize,
-                         loc        ='lower right',
-                         numpoints  =1,
-                         frameon    =False)
+axes[0,-1].legend(fontsize   =ftsize,
+                  loc        ='lower right',
+                  numpoints  =1,
+                  frameon    =False)
 
 # set margins
 plt.subplots_adjust(left    =margin_left/plot_width,

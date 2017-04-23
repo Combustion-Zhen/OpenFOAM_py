@@ -19,13 +19,13 @@ data={}
 expr={}
 for filename in glob.glob('mean_xD*.csv'):
     pos = filename.find('.csv')
-    xD_name = filename[7:pos]
-    z   = fr.z_str_to_num(xD_name)
+    xD = filename[7:pos]
+    z = fr.z_str_to_num(xD)
     xD_value.append(z)
     data.update({z:np.genfromtxt(filename,
                                  delimiter=',',
                                  names=True)})
-    exp_name='../../../pmCDEFarchives/pmD.stat/D{}.Yave'.format(xD_name)
+    exp_name='../../../pmCDEFarchives/pmD.stat/D{}.Yave'.format(xD)
     expr.update({z:fr.sf_expr_read(exp_name)})
 xD_value.sort()
 for z in xD_value:
