@@ -1,7 +1,10 @@
-#Zhen Lu, 03/04/2017 <albert.lz07@gmail.com>
-# plot Sandia Flame results, as title, the scatter at different x/D
+"""
+Zhen Lu, 03/04/2017 <albert.lz07@gmail.com>
+plot Sandia Flame results, as title, the scatter at different x/D
+"""
 import glob
-from file_read import csv_read, cm2inch, SF_read
+import numpy as np
+import file_read as fr
 # suppress the display of matplotlib.pyplot
 import matplotlib as mpl
 mpl.use('Agg')
@@ -12,16 +15,20 @@ import matplotlib.pyplot as plt
 var  = 'T'
 
 # import data
-xD=[]
+xD_value=[]
 data={}
 expr={}
 for filename in glob.glob('scat*.csv'):
     pos = filename.find('.csv')
-    z   = float('{0}.{1}'.format(filename[7:9],filename[9:pos]))
-    xD.append(z)
-    data.update({z:csv_read(filename)})
-    expr.update({z:SF_read('D.scat',filename[7:pos],'all')})
-xD.sort()
+    xD = filename[7:pos]
+    z = fr.z_str_to_num(xD)
+    xD_value.append(z)
+    data.update({z:np.genfromtxt(filename,
+                                 delimiter=',',
+                                 names=True)})
+    exp_name='../../../pmCDEFarchives/pmD.scat/D{}.Yall'.format(xD)
+    expr.update({z:fr.sf_expr_read(exp_name)})
+xD_value.sort()
 
 # plot
 # use TEX for interpreter
@@ -40,43 +47,43 @@ space_width     =0.0
 space_height    =1.0
 ftsize          =12
 # total height determined by the number of vars
-plot_height     =(subplot_h+space_height)*float(len(xD)) \
-                 -space_height+margin_top+margin_bottom
+plot_height     =((subplot_h+space_height)*float(len(xD))
+                  -space_height+margin_top+margin_bottom)
 # min and max of axis
 xmin = 0.0
 xmax = 1.0
-xtick= (0.0,0.2,0.4,0.6,0.8)
+xtick= tuple(np.arange(xmin,xmax,0.2))
 
 # generate the figure
-fig, axes = plt.subplots(len(xD),2,
+fig, axes = plt.subplots(len(xD_value),2,
                          sharex='col',sharey='all',
-                         figsize=cm2inch(plot_width, plot_height))
+                         figsize=fr.cm2inch(plot_width, plot_height))
 # generate the axis
-for x in xD:
-    axes[xD.index(x),0].scatter(expr[x]['Z'],expr[x][var],
-                                marker='.',c='k',edgecolor='none')
-    axes[xD.index(x),1].scatter(data[x]['Z'],data[x][var],
-                                marker='.',c='k',edgecolor='none')
+for j,z in enumerate(xD_value):
+    axes[j,0].scatter(expr[z]['Z'],expr[z][var],
+                      marker='.',c='k',edgecolor='none')
+    axes[j,1].scatter(data[z]['Z'],data[z][var],
+                      marker='.',c='k',edgecolor='none')
     # ylabel, temperature has a unit
     if var == 'T':
-        axes[xD.index(x),0].set_ylabel(r"$\tilde {0}\;(\mathrm{{K}})$".format(var),
-                                       fontsize=ftsize)
+        str_label=r"$\tilde T\;(\mathrm{{K}})$"
     else:
-        axes[xD.index(x),0].set_ylabel(r"$\tilde Y\;{0}$".format(var),
-                                       fontsize=ftsize)
+        str_label=r"$\tilde Y_{\mathrm{"+var+r"}}$"
+    axes[j,0].set_ylabel(str_label,
+                         fontsize=ftsize)
     # location note
     # the text position determined by axes axis
-    axes[xD.index(x),1].text(0.7,2000,'$x/D={0:.2g}$'.format(x),
-                             fontsize=ftsize)
+    axes[j,1].text(0.7,2000,'$x/D={0:.2g}$'.format(z),
+                   fontsize=ftsize)
 # ylabel, temperature has a unit
 # title and xlabel
 axes[0,0].set_title('Exp.',fontsize=ftsize)
 axes[0,1].set_title('Sim.',fontsize=ftsize)
 for i in range(2):
-    axes[len(xD)-1,i].set_xlim(xmin,xmax)
-    axes[len(xD)-1,i].set_xticks(xtick)
-    axes[len(xD)-1,i].set_xlabel(r'$\tilde Z$',fontsize=ftsize)
-axes[len(xD)-1,1].set_xticks(xtick+(xmax,))
+    axes[-1,i].set_xlim(xmin,xmax)
+    axes[-1,i].set_xticks(xtick)
+    axes[-1,i].set_xlabel(r'$\tilde Z$',fontsize=ftsize)
+axes[-1,1].set_xticks(xtick+(xmax,))
 # legend
 
 # set margins
