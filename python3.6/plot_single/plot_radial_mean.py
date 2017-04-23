@@ -11,26 +11,26 @@ import matplotlib.pyplot as plt
 
 # data to plot
 # two vars at least, because axes would be 1D vector for one var
-var  = ['Z','T']
+var  = ['Z','T','CO']
 
 # import data
-xD=[]
+xD_value=[]
 data={}
 expr={}
 for filename in glob.glob('mean_xD*.csv'):
     pos = filename.find('.csv')
     xD_name = filename[7:pos]
     z   = fr.z_str_to_num(xD_name)
-    xD.append(z)
+    xD_value.append(z)
     data.update({z:np.genfromtxt(filename,
                                  delimiter=',',
                                  names=True)})
     exp_name='../../../pmCDEFarchives/pmD.stat/D{}.Yave'.format(xD_name)
     expr.update({z:fr.sf_expr_read(exp_name)})
-xD.sort()
-for x in xD:
-    data[x]['r'] /= x
-    expr[x]['r'] /= x
+xD_value.sort()
+for z in xD_value:
+    data[z]['r'] /= z
+    expr[z]['r'] /= z
 
 # plot
 # use TEX for interpreter
@@ -49,51 +49,49 @@ space_width     =0.0
 space_height    =1.0
 ftsize          =12
 # total height determined by the number of vars
-plot_height     =(subplot_h+space_height)*float(len(var)) \
-                 -space_height+margin_top+margin_bottom
+plot_height     =((subplot_h+space_height)*float(len(var))
+                  -space_height+margin_top+margin_bottom)
 # min and max of axis
 xmin = 0.0
 xmax = 0.3
-xtick= (0.0,0.1,0.2)
+xtick= tuple(np.arange(xmin,xmax,0.1))
 
 # generate the figure
-fig, axes = plt.subplots(len(var),len(xD),
+fig, axes = plt.subplots(len(var),len(xD_value),
                          sharex='col',sharey='row',
                          figsize=fr.cm2inch(plot_width, plot_height))
 # generate the axis
-for v in var:
-    for x in xD:
-        axes[var.index(v),xD.index(x)].plot(data[x]['r'],data[x][v],'-b',
-                                            label='Sim.',linewidth=1.5)
-        axes[var.index(v),xD.index(x)].plot(expr[x]['r'],expr[x][v],'ok',
-                                            label='Exp.',linewidth=1.5)
+for i,v in enumerate(var):
+    for j,z in enumerate(xD_value):
+        axes[i,j].plot(data[z]['r'],data[z][v],'-b',
+                       label='Sim.',linewidth=1.5)
+        axes[i,j].plot(expr[z]['r'],expr[z][v],'ok',
+                       label='Exp.',linewidth=1.5)
     # ylabel, temperature has a unit
     if v == 'T':
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}\rangle\;(\mathrm{{K}})$".format(v),
-                                        fontsize=ftsize)
+        str_label=r"$\langle\tilde{{T}}\rangle\;(\mathrm{{K}})$"
     elif v == 'Z':
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}\rangle$".format(v),
-                                        fontsize=ftsize)
+        str_label=r"$\langle\tilde{{Z}}\rangle$"
     else:
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde Y\rangle\;{0}$".format(v),
-                                        fontsize=ftsize)
+        str_label=r'$\langle\tilde Y_{\mathrm{'+v+r'}}\rangle$'
+    axes[i,0].set_ylabel(str_label,fontsize=ftsize)
 # title and xlabel
-for x in xD:
+for j,z in enumerate(xD_value):
     #title
-    axes[0,xD.index(x)].set_title('$x/D={0:.2g}$'.format(x),
-                                  fontsize=ftsize)
+    axes[0,j].set_title('$x/D={0:.2g}$'.format(z),
+                        fontsize=ftsize)
     #r/x
-    axes[len(var)-1,xD.index(x)].set_xlabel('$r/x$',
-                                            fontsize=ftsize)
-    axes[len(var)-1,xD.index(x)].set_xlim(xmin,xmax)
-    axes[len(var)-1,xD.index(x)].set_xticks(xtick)
+    axes[-1,j].set_xlabel('$r/x$',
+                          fontsize=ftsize)
+    axes[-1,j].set_xlim(xmin,xmax)
+    axes[-1,j].set_xticks(xtick)
 
-axes[len(var)-1,len(xD)-1].set_xticks(xtick+(xmax,))
+axes[-1,-1].set_xticks(xtick+(xmax,))
 
 # legend
-axes[0,len(xD)-1].legend(fontsize=ftsize,
-                         numpoints=1,
-                         frameon=False)
+axes[0,-1].legend(fontsize=ftsize,
+                  numpoints=1,
+                  frameon=False)
 
 # set margins
 plt.subplots_adjust(left    =margin_left/plot_width,
@@ -110,43 +108,44 @@ plt.savefig('radial_ave.eps')
 
 # plot the rms
 # generate the figure
-fig, axes = plt.subplots(len(var),len(xD),
+fig, axes = plt.subplots(len(var),len(xD_value),
                          sharex='col',sharey='row',
                          figsize=fr.cm2inch(plot_width, plot_height))
 # generate the axis
-for v in var:
-    for x in xD:
-        axes[var.index(v),xD.index(x)].plot(data[x]['r'],data[x][v+'rms'],'-b',
-                                            label='Sim.',linewidth=1.5)
-        axes[var.index(v),xD.index(x)].plot(expr[x]['r'],expr[x][v+'rms'],'ok',
-                                            label='Exp.',linewidth=1.5)
+for i,v in enumerate(var):
+    for j,z in enumerate(xD_value):
+        axes[i,j].plot(data[z]['r'],data[z][v+'rms'],'-b',
+                       label='Sim.',linewidth=1.5)
+        axes[i,j].plot(expr[z]['r'],expr[z][v+'rms'],'ok',
+                       label='Exp.',linewidth=1.5)
     # ylabel, temperature has a unit
     if v == 'T':
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}^{{\prime\prime 2}}\rangle^{{1/2}}\;(\mathrm{{K}})$".format(v),
-                                        fontsize=ftsize)
+        str_label=(r"$\langle\tilde{{T}}^{{\prime\prime 2}}"
+                   r"\rangle\;(\mathrm{{K}})$")
     elif v == 'Z':
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde {0}^{{\prime\prime 2}}\rangle^{{1/2}}$".format(v),
-                                        fontsize=ftsize)
+        str_label=r"$\langle\tilde{{Z}}^{{\prime\prime 2}}\rangle$"
     else:
-        axes[var.index(v),0].set_ylabel(r"$\langle\tilde Y^{{\prime\prime 2}}\rangle^{{1/2}}\;{0}$".format(v),
-                                        fontsize=ftsize)
+        str_label=(r'$\langle\tilde Y^{{\prime\prime 2}}_{\mathrm{'
+                   +v+r'}}\rangle$')
+    axes[i,0].set_ylabel(str_label,
+                         fontsize=ftsize)
 # title and xlabel
-for x in xD:
+for j,z in enumerate(xD_value):
     #title
-    axes[0,xD.index(x)].set_title('$x/D={0:.2g}$'.format(x),
-                                  fontsize=ftsize)
+    axes[0,j].set_title('$x/D={0:.2g}$'.format(z),
+                        fontsize=ftsize)
     #r/x
-    axes[len(var)-1,xD.index(x)].set_xlabel('$r/x$',
-                                            fontsize=ftsize)
-    axes[len(var)-1,xD.index(x)].set_xlim(xmin,xmax)
-    axes[len(var)-1,xD.index(x)].set_xticks(xtick)
+    axes[-1,j].set_xlabel('$r/x$',
+                          fontsize=ftsize)
+    axes[-1,j].set_xlim(xmin,xmax)
+    axes[-1,j].set_xticks(xtick)
 
-axes[len(var)-1,len(xD)-1].set_xticks(xtick+(xmax,))
+axes[-1,-1].set_xticks(xtick+(xmax,))
 
 # legend
-axes[0,len(xD)-1].legend(fontsize=ftsize,
-                         numpoints=1,
-                         frameon=False)
+axes[0,-1].legend(fontsize=ftsize,
+                  numpoints=1,
+                  frameon=False)
 
 # set margins
 plt.subplots_adjust(left    =margin_left/plot_width,

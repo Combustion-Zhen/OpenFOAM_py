@@ -68,7 +68,7 @@ plot_height     =((subplot_h+space_height)*float(len(var))
 # min and max of axis
 xmin = 0.0
 xmax = 0.3
-xtick= (0.0,0.1,0.2)
+xtick= tuple(np.arange(xmin,xmax,0.1))
 
 # generate the figure
 fig, axes = plt.subplots(len(var),len(xD_value),
