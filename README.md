@@ -9,3 +9,9 @@ copy post.sh to the case directory, and keep python scripts in OpenFOAM/py_scrip
 ./post.sh
 
 folder_correct.py to round the folder names of those runtime save
+
+add plot_multi to compare results from different settings
+
+modify the way read in data, using numpy.genfromtxt
+
+follow PEP8 convention
