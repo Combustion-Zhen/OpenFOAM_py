@@ -1,6 +1,8 @@
-# Zhen Lu, 2017 <albert.lz07@gmail.com>
-# plot Sandia Flame results, this version is only for browse, specific
-# settings for different variables are required for journal artworks
+"""
+Zhen Lu, 2017 <albert.lz07@gmail.com>
+plot Sandia Flame results, this version is only for browse, specific
+settings for different variables are required for journal artworks
+"""
 import glob
 import numpy as np
 import file_read as fr
