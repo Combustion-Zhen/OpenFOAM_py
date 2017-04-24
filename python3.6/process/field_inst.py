@@ -50,10 +50,8 @@ for var in var_names:
                     field_inst['r'].append(r/D)
                     field_inst['z'].append(z/D)
 # check the number of r and z points
-rd=sorted(list(set(field_inst['r'])))
-xd=sorted(list(set(field_inst['z'])))
-print(len(rd))
-print(len(xd))
+print(len(set(field_inst['r'])))
+print(len(set(field_inst['z'])))
 
 # write to csv
 with open('inst_field.csv','w') as csvfile:
