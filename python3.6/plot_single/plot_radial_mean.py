@@ -122,13 +122,13 @@ for i,v in enumerate(var):
                        label='Exp.',linewidth=1.5)
     # ylabel, temperature has a unit
     if v == 'T':
-        str_label=(r"$\langle\tilde{{T}}^{{\prime\prime 2}}"
-                   r"\rangle\;(\mathrm{{K}})$")
+        str_label=(r'$\langle\tilde{T}^{\prime\prime 2}'
+                   r'\rangle^{1/2}\;(\mathrm{{K}})$')
     elif v == 'Z':
-        str_label=r"$\langle\tilde{{Z}}^{{\prime\prime 2}}\rangle$"
+        str_label=r'$\langle\tilde{Z}^{\prime\prime 2}\rangle^{1/2}$'
     else:
-        str_label=(r'$\langle\tilde Y^{{\prime\prime 2}}_{\mathrm{'
-                   +v+r'}}\rangle$')
+        str_label=(r'$\langle\tilde Y^{\prime\prime 2}_{\mathrm{'
+                   +v+r'}}\rangle^{1/2}$')
     axes[i,0].set_ylabel(str_label,
                          fontsize=ftsize)
 # title and xlabel

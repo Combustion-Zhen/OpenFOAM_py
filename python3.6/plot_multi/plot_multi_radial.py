@@ -68,7 +68,7 @@ plot_height     =((subplot_h+space_height)*float(len(var))
 # min and max of axis
 xmin = 0.0
 xmax = 0.3
-xtick= tuple(np.arange(xmin,xmax,0.1))
+xtick= (0.0,0.1,0.2)
 
 # generate the figure
 fig, axes = plt.subplots(len(var),len(xD_value),
@@ -108,7 +108,7 @@ for j,z in enumerate(xD_value):
 axes[-1,-1].set_xticks(xtick+(xmax,))
 
 # legend
-axes[0,-1].legend(fontsize=ftsize-4,
+axes[0,-1].legend(fontsize=ftsize-2,
                   numpoints=1,
                   frameon=False)
 
@@ -143,13 +143,13 @@ for i,v in enumerate(var):
                            label=str_label,linewidth=1.5)
     # ylabel, temperature has a unit
     if v == 'T':
-        str_label=(r"$\langle\tilde{{T}}^{{\prime\prime 2}}"
-                   r"\rangle\;(\mathrm{{K}})$")
+        str_label=(r'$\langle\tilde{T}^{\prime\prime 2}'
+                   r'\rangle^{1/2}\;(\mathrm{{K}})$')
     elif v == 'Z':
-        str_label=r"$\langle\tilde{{Z}}^{{\prime\prime 2}}\rangle$"
+        str_label=r'$\langle\tilde{Z}^{\prime\prime 2}\rangle^{1/2}$'
     else:
-        str_label=(r'$\langle\tilde Y^{{\prime\prime 2}}_{\mathrm{'
-                   +v+r'}}\rangle$')
+        str_label=(r'$\langle\tilde Y^{\prime\prime 2}_{\mathrm{'
+                   +v+r'}}\rangle^{1/2}$')
     axes[i,0].set_ylabel(str_label,
                          fontsize=ftsize)
 # title and xlabel
