@@ -8,6 +8,10 @@ Execution sequence:
 copy post.sh to the case directory, and keep python scripts in OpenFOAM/py_scripts
 ./post.sh
 
+Update:
+
+Move to python 3
+
 folder_correct.py to round the folder names of those runtime save
 
 add plot_multi to compare results from different settings
