@@ -1,6 +1,6 @@
 #!/bin/sh
 TIME=-latestTime
-SAMPLEDICT="xD xnormal"
+SAMPLEDICT="axial xD xnormal"
 ## reconstruct from the parallel resutls
 reconstructPar $TIME
 ## convert from binary format to ascii
@@ -18,11 +18,13 @@ done
 ## copy the python post-processing scripts
 cd postProcessing
 cp $HOME/$WM_PROJECT/py_scripts/* .
-python radial_mean_digit.py
-python radial_cnd_scat.py
-python field_inst.py
-python field_mean.py
-python plot_radial_mean.py
-python plot_cond.py
-python plot_scat.py
-python plot_field.py
+## with python3 alias as py
+py radial_mean_digit.py
+py radial_cnd_scat.py
+py field_inst.py
+py field_mean.py
+py plot_radial_mean.py
+py plot_cond.py
+py plot_scat.py
+py plot_field.py
+py plot_axial.py
