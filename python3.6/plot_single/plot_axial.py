@@ -83,7 +83,7 @@ plot_width      =19.0
 subplot_h       =4.0
 margin_left     =2.0
 margin_right    =0.3
-margin_bottom   =1.5
+margin_bottom   =1.2
 margin_top      =0.3
 space_width     =4.5
 space_height    =1.5
@@ -99,7 +99,7 @@ fig, axes = plt.subplots(3,2,sharex='col',
 axes[0,0].plot(data[:,0],data[:,1],'-b',
                label='Sim.',linewidth=1.5)
 axes[0,0].plot(expu[:,0],expu[:,1],'ok',
-               label='Sim.',linewidth=1.5)
+               label='Exp.',linewidth=1.5)
 axes[0,0].set_ylabel(r'$\langle\tilde u\rangle/U_{\mathrm{ref}}$',
                      fontsize=ftsize)
 axes[0,0].set_ylim(0,1.5)
@@ -107,7 +107,7 @@ axes[0,0].set_ylim(0,1.5)
 axes[0,1].plot(data[:,0],data[:,2],'-b',
                label='Sim.',linewidth=1.5)
 axes[0,1].plot(expu[:,0],expu[:,2],'ok',
-               label='Sim.',linewidth=1.5)
+               label='Exp.',linewidth=1.5)
 axes[0,1].set_ylabel(r'$\langle\tilde u^{\prime\prime 2}\rangle^{1/2}$'
                      r'$/U_{\mathrm{ref}}$',
                      fontsize=ftsize)
@@ -117,11 +117,11 @@ for i,var in enumerate(scalar_name,start=1):
     axes[i,0].plot(data[:,0],data[:,2*i+1],'-b',
                    label='Sim.',linewidth=1.5)
     axes[i,0].plot(expr['z'],expr[var],'ok',
-                   label='Sim.',linewidth=1.5)
+                   label='Exp.',linewidth=1.5)
     axes[i,1].plot(data[:,0],data[:,2*i+2],'-b',
                    label='Sim.',linewidth=1.5)
     axes[i,1].plot(expr['z'],expr[var+'rms'],'ok',
-                   label='Sim.',linewidth=1.5)
+                   label='Exp.',linewidth=1.5)
 
 axes[1,0].set_ylabel(r'$\langle\tilde T\rangle\;(\mathrm K)$',
                      fontsize=ftsize)
