@@ -58,4 +58,5 @@ for length in file_loc:
     for i,r_val in enumerate(r_set):
         data_ave[i,1:]=np.average(data[:,1:],axis=0,weights=(r==r_val))
     np.savetxt('mean_U_xD{0}.csv'.format(length),
-               data_ave)
+               data_ave,
+               delimiter=',')
