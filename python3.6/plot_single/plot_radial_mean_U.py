@@ -6,7 +6,7 @@ import glob
 import numpy as np
 import file_read as fr
 import matplotlib as mpl
-#mpl.use('Agg')
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 U_REF = 49.6
@@ -109,5 +109,3 @@ plt.subplots_adjust(left    =margin_left/plot_width,
 plt.savefig('radial_ave_U.png',dpi=400)
 plt.savefig('radial_ave_U.pdf')
 plt.savefig('radial_ave_U.eps')
-
-plt.show()
