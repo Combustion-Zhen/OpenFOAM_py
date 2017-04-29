@@ -25,6 +25,7 @@ py radial_cnd_scat.py
 py field_inst.py
 py field_mean.py
 py plot_radial_mean.py
+py plot_radial_mean_U.py
 py plot_cond.py
 py plot_scat.py
 py plot_field.py
