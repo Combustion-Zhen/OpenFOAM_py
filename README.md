@@ -10,6 +10,8 @@ copy post.sh to the case directory, and keep python scripts in OpenFOAM/py_scrip
 
 Update:
 
+add radial_mean_U.py to process velocity
+
 Move to python 3
 
 folder_correct.py to round the folder names of those runtime save
