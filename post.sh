@@ -20,6 +20,7 @@ cd postProcessing
 cp $HOME/$WM_PROJECT/py_scripts/* .
 ## with python3 alias as py
 py radial_mean_digit.py
+py radial_mean_U.py
 py radial_cnd_scat.py
 py field_inst.py
 py field_mean.py
