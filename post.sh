@@ -4,7 +4,12 @@ SAMPLEDICT="axial xD xnormal"
 ## reconstruct from the parallel resutls
 reconstructPar $TIME
 ## convert from binary format to ascii
-sed  -e "s/@STARTTIME@/latestTime/g" -e "s/@ENDTIME@/0.25/g"   -e "s/@DELTAT@/1e-6/g" -e  "s/@WRITEINTERVAL@/0.01/g" -e "s/@ENABLED@/true/g"  -e "s/@RESTART@/false/g" -e "s/@RESTARTOUT@/false/g" -e "s/@WRITEFORMAT@/ascii/g" system/controlDict_template > system/controlDict
+sed -e "s/@STARTTIME@/latestTime/g" -e "s/@ENDTIME@/0.25/g" \
+    -e "s/@DELTAT@/1e-6/g" -e "s/@WRITEINTERVAL@/0.01/g" \
+    -e "s/@WRITEFORMAT@/ascii/g" \
+    -e "s/@ENABLED@/true/g" \
+    -e "s/@RESTART@/false/g" -e "s/@RESTARTOUT@/false/g" \
+    system/controlDict_template > system/controlDict
 foamFormatConvert $TIME
 ## get the cell coordinates
 writeCellCentres $TIME
