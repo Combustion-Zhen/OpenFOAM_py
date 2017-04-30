@@ -10,9 +10,6 @@ import numpy as np
 # print task
 print('Take radial mean for *_xD.raw files')
 # constant for files
-# bin for average
-rx_limit    = 0.3
-# 'r' in the unit of mm
 # diameter of the inlet jet
 D           = 0.0072
 rms         = 'rms'
