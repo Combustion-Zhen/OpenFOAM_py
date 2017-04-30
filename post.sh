@@ -22,7 +22,9 @@ do
 done
 ## copy the python post-processing scripts
 cd postProcessing
-cp $HOME/$WM_PROJECT/py_scripts/* .
+cp $HOME/$WM_PROJECT/py_scripts/python3.6/file_read.py .
+cp $HOME/$WM_PROJECT/py_scripts/python3.6/process/* .
+cp $HOME/$WM_PROJECT/py_scripts/python3.6/plot_single/* .
 ## with python3 alias as py
 py radial_mean_digit.py
 py radial_mean_U.py
