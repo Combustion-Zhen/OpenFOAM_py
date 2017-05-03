@@ -1,4 +1,5 @@
 # Zhen Lu, 2017 <albert.lz07@gmail.com>
+import os
 import csv
 import numpy as np
 
@@ -46,3 +47,49 @@ def comp_read_scalar(filename):
 
 def z_str_to_num(xD):
     return float('{0}.{1}'.format(xD[:2],xD[2:]))
+
+def foam_read_vector(filename,ndim):
+    with open(filename,'r') as foamfile:
+        foamfile.readline()
+        num_data = int(foamfile.readline().strip())
+        data = np.empty([num_data,ndim])
+        foamfile.readline()
+        for i in range(num_data):
+            line = foamfile.readline().strip()[1:-1]
+            data[i,:] = np.fromstring(line,sep=' ')
+    return data
+
+def foam_write_vector(filename,obj_name,data):
+    with open(filename,'w') as foamfile:
+        foamfile.write('FoamFile\n{\n'
+                       '    version        2.0;\n'
+                       '    format         ascii;\n'
+                       '    class          vectorField;\n'
+                       '    object         '+obj_name+';\n}\n')
+        str_comment = ' *'*30
+        foamfile.write('//' + str_comment + ' //\n')
+        foamfile.write(str(data.shape[0]))
+        foamfile.write('\n(\n')
+        for i in range(data.shape[0]):
+            foamfile.write('    {}\n'.format(tuple(data[i,:])))
+        foamfile.write(')\n')
+        foamfile.write('//' + str_comment + ' //\n')
+
+def _mkdir(newdir):
+    """works the way a good mkdir should :)
+        - already exists, silently complete
+        - regular file in the way, raise an exception
+        - parent directory(ies) does not exist, make them as well
+    """
+    if os.path.isdir(newdir):
+        pass
+    elif os.path.isfile(newdir):
+        raise OSError("a file with the same name as the desired " \
+                      "dir, '%s', already exists." % newdir)
+    else:
+        head, tail = os.path.split(newdir)
+        if head and not os.path.isdir(head):
+            _mkdir(head)
+        #print "_mkdir %s" % repr(newdir)
+        if tail:
+            os.mkdir(newdir)
