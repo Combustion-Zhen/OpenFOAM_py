@@ -18,7 +18,8 @@ for file_name in glob.glob('mean_U_xD*.csv'):
     xd_val.append(z)
 
     data = np.genfromtxt(file_name,delimiter=',')
-    simu.update({z:np.stack((data[:,0],data[:,3],data[:,-1]),axis=1)})
+    simu.update({z:np.stack((data[:,0],data[:,1],data[:,4]),axis=1)})
+    #simu.update({z:np.stack((data[:,0],data[:,3],data[:,-1]),axis=1)})
 
     simu[z][:,2] = np.sqrt(simu[z][:,2])
     #simu[z][:,1:] /= U_REF
