@@ -4,8 +4,7 @@ Zhen Lu, 04/05/2017, <albert.lz07@gmail.com>
 Transform the x-direction pipe flow calculation for OpenFOAM inlet
 boundary condition timeVaryingMappedFixedValue
 
-System argument should be the start time of the pipe flow, say 0.01,
-and the end time of the target case, say 0.25 for Sandia Flame D
+System argument should be the start time of the pipe flow, say 0.01
 
 Variables in the python script to be changed based on user's need:
     flow_direct     direction of flow x: +/- 1 y: +/- 2 z: +/- 3
@@ -82,8 +81,9 @@ pts[:,axis] = flow_base_point
 vel = np.empty([vel_num,pts_num,3])
 for j,time in enumerate(calc_time):
     v = fr.comp_read_vector('{:g}/U'.format(time),3)
-    for i,pos in enumerate(x_loc):
-        vel[j*x_num+i,:,:] = v[i*pts_num:(i+1)*pts_num,:]
+    for i,pos in enumerate(sorted(x_loc)):
+        k = x_loc.index(pos)
+        vel[j*x_num+i,:,:] = v[k*pts_num:(k+1)*pts_num,:]
 
 # transform cordinate
 vel[:,:,0], vel[:,:,axis] = vel[:,:,axis], vel[:,:,0].copy()*normal_dir
