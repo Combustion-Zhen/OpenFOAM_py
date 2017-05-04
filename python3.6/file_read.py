@@ -71,7 +71,10 @@ def foam_write_vector(filename,obj_name,data):
         foamfile.write(str(data.shape[0]))
         foamfile.write('\n(\n')
         for i in range(data.shape[0]):
-            foamfile.write('    {}\n'.format(tuple(data[i,:])))
+            foamfile.write('(')
+            foamfile.write(("{} "*len(data[i,:]))[:-1].format(*data[i,:]))
+            foamfile.write(')\n')
+            #foamfile.write('    {}\n'.format(data[i,:]))
         foamfile.write(')\n')
         foamfile.write('//' + str_comment + ' //\n')
 

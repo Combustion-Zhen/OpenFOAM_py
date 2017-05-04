@@ -13,7 +13,7 @@ import file_read as fr
 flow_direct = 3
 flow_base_point = 0.0
 
-patch_dir = 'inlet_jet/'
+patch_dir = 'fuel/'
 data_dir = 'surfaces/'
 data_loc = 'xD02/'
 
