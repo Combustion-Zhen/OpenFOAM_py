@@ -13,6 +13,7 @@ Variables in the python script to be changed based on user's need:
                     direction of flow_direct
     bulk_vel        bulk velocity, same as Ubar
     patch_dir       patch name for the inlet boundary condition
+    sim_time        pysical time for simulation
     dt              time step between each mapping plane
 """
 
@@ -27,13 +28,13 @@ flow_direct = 3
 flow_base_point = 0.0
 bulk_vel = 49.6
 patch_dir = 'fuel/'
+sim_time = 0.3
 dt = 2e-5
 
-if len(sys.argv) < 3:
-    raise RuntimeError('Please provide start_time and sim_time')
+if len(sys.argv) < 2:
+    raise RuntimeError('Please provide start_time')
 
 start_time = float(sys.argv[1])
-sim_time = float(sys.argv[2])
 
 # get the latest time
 calc_time=[]
@@ -46,7 +47,7 @@ calc_time.sort()
 print('Taking pipe flow simulation results '
       'from {0} s to {1:g} s '.format(sys.argv[1],calc_time[-1]))
 print('to construct timeVaryingMappedFixedValue '
-      'from 0.0 s to {0} s '.format(sys.argv[2]))
+        'from 0.0 s to {0:g} s '.format(sim_time))
 
 # read the cell center information
 x = fr.comp_read_scalar('{:g}/ccx'.format(calc_time[-1]))

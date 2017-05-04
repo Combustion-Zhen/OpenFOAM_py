@@ -1,7 +1,6 @@
 #!/bin/bash
 
 STARTTIME=0.01
-SIMTIME=0.3
 
 sed -e "s/@STARTFROM@/latestTime/g" -e "s/@STARTTIME@/0.0/g" \
     -e "s/@ENDTIME@/0.005/g" -e "s/@DELTAT@/1e-6/g" \
@@ -12,4 +11,4 @@ sed -e "s/@STARTFROM@/latestTime/g" -e "s/@STARTTIME@/0.0/g" \
 reconstructPar -time "$STARTTIME:"
 writeCellCentres -latestTime
 
-python pipe_transform_time.py $STARTTIME $SIMTIME
+python pipe_transform_time.py $STARTTIME
