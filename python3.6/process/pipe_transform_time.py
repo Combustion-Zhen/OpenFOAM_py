@@ -12,7 +12,7 @@ Variables in the python script to be changed based on user's need:
                     direction of flow_direct
     bulk_vel        bulk velocity, same as Ubar
     patch_dir       patch name for the inlet boundary condition
-    sim_time        pysical time for simulation
+    sim_time        physical time for simulation
     dt              time step between each mapping plane
 """
 
