@@ -36,8 +36,8 @@ velo = fr.foam_read_vector(file_name,3)
 normal_dir = np.sign(flow_direct)
 axis = -flow_direct-1 if flow_direct < 0 else flow_direct-1
 
-points[:,0] = points[:,flow_direct-1]
-points[:,flow_direct-1] = flow_base_point
+points[:,0] = points[:,axis]
+points[:,axis] = flow_base_point
 
 velo[:,0], velo[:,axis] = velo[:,axis], velo[:,0].copy()*normal_dir
 
