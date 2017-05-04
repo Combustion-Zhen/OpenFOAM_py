@@ -32,22 +32,39 @@ def sf_expr_read(filename):
     data.dtype.names = tuple(names)
     return data
 
+# for reconstructed data in ascii
 def comp_read_scalar(filename):
-    data=[]
     with open(filename,'r') as file_OF:
         line=''
         while 'internalField' not in line:
             #skip head lines
-            line=file_OF.readline().strip()
+            line = file_OF.readline()
         num_data=int(file_OF.readline().strip())
         file_OF.readline()
+        data = np.empty(num_data)
         for i in range(num_data):
-            data.append(float(file_OF.readline().strip()))
+            data[i] = float(file_OF.readline().strip())
+    return data
+
+# for reconstructed data in ascii
+def comp_read_vector(filename,ndim):
+    with open(filename,'r') as file_OF:
+        line = ''
+        while 'internalField' not in line:
+            #skip head lines
+            line = file_OF.readline()
+        num_data = int(file_OF.readline().strip())
+        file_OF.readline()
+        data = np.empty([num_data,ndim])
+        for i in range(num_data):
+            line = file_OF.readline().strip()[1:-1]
+            data[i,:] = np.fromstring(line,sep=' ')
     return data
 
 def z_str_to_num(xD):
     return float('{0}.{1}'.format(xD[:2],xD[2:]))
 
+# for foamFile from sample
 def foam_read_vector(filename,ndim):
     with open(filename,'r') as foamfile:
         foamfile.readline()
