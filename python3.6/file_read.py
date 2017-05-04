@@ -59,25 +59,6 @@ def foam_read_vector(filename,ndim):
             data[i,:] = np.fromstring(line,sep=' ')
     return data
 
-def foam_write_vector(filename,obj_name,data):
-    with open(filename,'w') as foamfile:
-        foamfile.write('FoamFile\n{\n'
-                       '    version        2.0;\n'
-                       '    format         ascii;\n'
-                       '    class          vectorField;\n'
-                       '    object         '+obj_name+';\n}\n')
-        str_comment = ' *'*30
-        foamfile.write('//' + str_comment + ' //\n')
-        foamfile.write(str(data.shape[0]))
-        foamfile.write('\n(\n')
-        for i in range(data.shape[0]):
-            foamfile.write('(')
-            foamfile.write(("{} "*len(data[i,:]))[:-1].format(*data[i,:]))
-            foamfile.write(')\n')
-            #foamfile.write('    {}\n'.format(data[i,:]))
-        foamfile.write(')\n')
-        foamfile.write('//' + str_comment + ' //\n')
-
 def _mkdir(newdir):
     """works the way a good mkdir should :)
         - already exists, silently complete

@@ -12,6 +12,7 @@ import file_read as fr
 # direction of flow x: +/- 1 y: +/- 2 z: +/- 3
 flow_direct = 3
 flow_base_point = 0.0
+bulk_velo = 49.6
 
 patch_dir = 'fuel/'
 data_dir = 'surfaces/'
@@ -40,12 +41,49 @@ points[:,flow_direct-1] = flow_base_point
 
 velo[:,0], velo[:,axis] = velo[:,axis], velo[:,0].copy()*normal_dir
 
+str_comment = ' *'*30
 # write points
 fr._mkdir(patch_dir)
 file_name = '{}points'.format(patch_dir)
-fr.foam_write_vector(file_name,'points',points)
+with open(file_name,'w') as foamfile:
+    foamfile.write('FoamFile\n{\n'
+                   '    version        2.0;\n'
+                   '    format         ascii;\n'
+                   '    class          vectorField;\n'
+                   '    object         points;\n}\n')
+    foamfile.write('//' + str_comment + ' //\n')
+    foamfile.write('\n(\n')
+    for i in range(points.shape[0]):
+        foamfile.write('(')
+        foamfile.write(("{} "*len(points[i,:]))[:-1].format(*points[i,:]))
+        foamfile.write(')\n')
+    foamfile.write(')\n')
+    foamfile.write('//' + str_comment + ' //\n')
 
+velo_ave = np.zeros(3)
+velo_ave[axis] = normal_dir*bulk_velo
 # write velocity
 fr._mkdir('{0}{1}'.format(patch_dir,'0'))
 file_name = '{0}{1}/U'.format(patch_dir,'0')
-fr.foam_write_vector(file_name,'values',velo)
+with open(file_name,'w') as foamfile:
+    foamfile.write('FoamFile\n{\n'
+                   '    version        2.0;\n'
+                   '    format         ascii;\n'
+                   '    class          vectorAverageField;\n'
+                   '    object         values;\n}\n')
+    foamfile.write('//' + str_comment + ' //\n')
+
+    foamfile.write('(')
+    foamfile.write(("{} "*len(velo_ave))[:-1].format(*velo_ave))
+    foamfile.write(')\n')
+
+    foamfile.write(str(velo.shape[0]))
+
+    foamfile.write('\n(\n')
+    for i in range(velo.shape[0]):
+        foamfile.write('(')
+        foamfile.write(("{} "*len(velo[i,:]))[:-1].format(*velo[i,:]))
+        foamfile.write(')\n')
+    foamfile.write(')\n')
+
+    foamfile.write('//' + str_comment + ' //\n')
