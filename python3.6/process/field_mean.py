@@ -14,7 +14,7 @@ D = 0.0072
 
 # pick the latest time
 calc_time=[]
-for filename in glob.glob('../[0-9]*'):
+for filename in glob.glob('../[0-9]*[0-9]'):
     calc_time.append(float(filename[3:]))
 time=str(max(calc_time))
 

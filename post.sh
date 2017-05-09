@@ -25,14 +25,14 @@ cp $HOME/$WM_PROJECT/py_scripts/python3.6/file_read.py .
 cp $HOME/$WM_PROJECT/py_scripts/python3.6/process/* .
 cp $HOME/$WM_PROJECT/py_scripts/python3.6/plot_single/* .
 ## with python3 alias as py
-py radial_mean_digit.py
-py radial_mean_U.py
-py radial_cnd_scat.py
-py field_inst.py
-py field_mean.py
-py plot_radial_mean.py
-py plot_radial_mean_U.py
-py plot_cond.py
-py plot_scat.py
-py plot_field.py
-py plot_axial.py
+python3 radial_mean_digit.py
+python3 radial_mean_U.py
+python3 radial_cnd_scat.py
+python3 field_inst.py
+python3 field_mean.py
+python3 plot_radial_mean.py
+python3 plot_radial_mean_U.py
+python3 plot_cond.py
+python3 plot_scat.py
+python3 plot_field.py
+python3 plot_axial.py
