@@ -81,6 +81,9 @@ pts[:,axis] = flow_base_point
 vel = np.empty([vel_num,pts_num,3])
 for j,time in enumerate(calc_time):
     v = fr.comp_read_vector('{:g}/U'.format(time),3)
+    # disordered inlet
+    #for i,pos in enumerate(x_loc):
+    # ordered inlet
     for i,pos in enumerate(sorted(x_loc)):
         k = x_loc.index(pos)
         vel[j*x_num+i,:,:] = v[k*pts_num:(k+1)*pts_num,:]
