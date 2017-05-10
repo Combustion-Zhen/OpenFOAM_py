@@ -22,19 +22,45 @@ for file_name in glob.glob('mean_U_xD*.csv'):
         xd_val.append(z)
 
         data = np.genfromtxt(file_name,delimiter=',')
-        simu.update({z:np.stack((data[:,0],data[:,3],data[:,-1]),
+        simu.update({z:np.stack((data[:,0],
+                                 data[:,3],
+                                 data[:,-1]),
                                 axis=1)})
-        exp_str = 'TUD_LDV_'
-        exp_name = '../../../{0}DEF/{0}D.d{1}'.format(exp_str,xd)
-        data = np.genfromtxt(exp_name,skip_header=13)
-        expr.update({z:data[:,:3]})
-
-        #simu[z][:,0] /= z
-        #expr[z][:,0] /= z
         simu[z][:,2] = np.sqrt(simu[z][:,2])
+
+        if z == 0.0:
+            data = np.array([[0.0,62.95,6.13],
+                             [0.0694,62.54,6.23],
+                             [0.1388,61.36,8.27],
+                             [0.2083,59.21,12.45],
+                             [0.2777,56.73,15.93],
+                             [0.3472,53.34,20.66],
+                             [0.4166,48.80,24.50],
+                             [0.4861,41.99,37.40],
+                             [0.5,0.0,0.0],
+                             [0.5555,3.45,0.322],
+                             [0.6250,11.46,1.736],
+                             [0.6944,15.18,1.484],
+                             [0.7638,15.45,1.586],
+                             [0.8333,15.15,1.797],
+                             [0.9027,15.97,1.36],
+                             [0.9722,15.56,1.476],
+                             [1.0416,15.42,1.410],
+                             [1.1111,15.04,1.546],
+                             [1.1805,14.25,1.875],
+                             [1.2300,10.96,1.508],
+                             [1.2400,0.0,0.0],
+                             [1.3194,1.04,0.009],
+                             [1.3888,1.01,0.007],
+                             [1.4583,1.07,0.007],
+                             [2.1041,1.02,0.006]])
+        else:
+            exp_str = 'TUD_LDV_'
+            exp_name = '../../../{0}DEF/{0}D.d{1}'.format(exp_str,xd)
+            data = np.genfromtxt(exp_name,skip_header=13)
+
+        expr.update({z:data[:,:3]})
         expr[z][:,2] = np.sqrt(expr[z][:,2])
-        #simu[z][:,1:] /= U_REF
-        #expr[z][:,1:] /= U_REF
 xd_val.sort()
 
 ## plot
