@@ -22,12 +22,13 @@ for filename in glob.glob('scat*.csv'):
     pos = filename.find('.csv')
     xD = filename[7:pos]
     z = fr.z_str_to_num(xD)
-    xD_value.append(z)
-    data.update({z:np.genfromtxt(filename,
-                                 delimiter=',',
-                                 names=True)})
-    exp_name='../../../pmCDEFarchives/pmD.scat/D{}.Yall'.format(xD)
-    expr.update({z:fr.sf_expr_read(exp_name)})
+    if z >= 7.5 and z <= 45.0:
+        xD_value.append(z)
+        data.update({z:np.genfromtxt(filename,
+                                     delimiter=',',
+                                     names=True)})
+        exp_name='../../../pmCDEFarchives/pmD.scat/D{}.Yall'.format(xD)
+        expr.update({z:fr.sf_expr_read(exp_name)})
 xD_value.sort()
 
 # plot

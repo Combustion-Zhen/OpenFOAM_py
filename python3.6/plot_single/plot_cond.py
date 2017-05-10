@@ -24,12 +24,13 @@ for filename in glob.glob('cond_*.csv'):
     pos = filename.find('.csv')
     xD = filename[7:pos]
     z = fr.z_str_to_num(xD)
-    xD_value.append(z)
-    data.update({z:np.genfromtxt(filename,
-                                 delimiter=',',
-                                 names=True)})
-    exp_name='../../../pmCDEFarchives/pmD.stat/D{}.Ycnd'.format(xD)
-    expr.update({z:fr.sf_expr_read(exp_name)})
+    if z >= 7.5 and z <= 45.0:
+        xD_value.append(z)
+        data.update({z:np.genfromtxt(filename,
+                                     delimiter=',',
+                                     names=True)})
+        exp_name='../../../pmCDEFarchives/pmD.stat/D{}.Ycnd'.format(xD)
+        expr.update({z:fr.sf_expr_read(exp_name)})
 xD_value.sort()
 
 # plot
@@ -103,6 +104,6 @@ plt.subplots_adjust(left    =margin_left/plot_width,
                     hspace  =space_height/plot_height)
 
 # save plot
-plt.savefig('radial_cnd.png',dpt=400)
+plt.savefig('radial_cnd.png',dpi=400)
 plt.savefig('radial_cnd.pdf')
 plt.savefig('radial_cnd.eps')

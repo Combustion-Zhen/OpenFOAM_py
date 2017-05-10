@@ -1,5 +1,5 @@
 """
-Zhen Lu, 29/04/2017 <albert.lz07@gmail.com>
+Zhen Lu, 10/May/2017 <albert.lz07@gmail.com>
 plot Sandia Flame results
 """
 import glob
@@ -18,18 +18,19 @@ expr = {}
 for file_name in glob.glob('mean_U_xD*.csv'):
     xd = file_name[9:-4]
     z = fr.z_str_to_num(xd)
-    if z >= 7.5 and z <= 45.0:
+    if z <= 5.0:
         xd_val.append(z)
 
         data = np.genfromtxt(file_name,delimiter=',')
-        simu.update({z:np.stack((data[:,0],data[:,3],data[:,-1]),axis=1)})
+        simu.update({z:np.stack((data[:,0],data[:,3],data[:,-1]),
+                                axis=1)})
         exp_str = 'TUD_LDV_'
         exp_name = '../../../{0}DEF/{0}D.d{1}'.format(exp_str,xd)
         data = np.genfromtxt(exp_name,skip_header=13)
         expr.update({z:data[:,:3]})
 
-        simu[z][:,0] /= z
-        expr[z][:,0] /= z
+        #simu[z][:,0] /= z
+        #expr[z][:,0] /= z
         simu[z][:,2] = np.sqrt(simu[z][:,2])
         expr[z][:,2] = np.sqrt(expr[z][:,2])
         #simu[z][:,1:] /= U_REF
@@ -57,8 +58,8 @@ plot_height     =((subplot_h+space_height)*2.0
                   -space_height+margin_top+margin_bottom)
 # min and max of axis
 xmin = 0.0
-xmax = 0.3
-xtick= tuple(np.arange(xmin,xmax,0.1))
+xmax = 2.0
+xtick= tuple(np.arange(xmin,xmax,0.5))
 
 # generate the figure
 fig, axes = plt.subplots(2,len(xd_val),
@@ -79,7 +80,7 @@ for i,z in enumerate(xd_val):
     axes[0,i].set_title('$x/D={0:.2g}$'.format(z),
                         fontsize=ftsize)
     #r/x
-    axes[-1,i].set_xlabel('$r/x$',
+    axes[-1,i].set_xlabel('$r/D$',
                           fontsize=ftsize)
     axes[-1,i].set_xlim(xmin,xmax)
     axes[-1,i].set_xticks(xtick)
@@ -107,6 +108,6 @@ plt.subplots_adjust(left    =margin_left/plot_width,
                     hspace  =space_height/plot_height)
 
 # save plot
-plt.savefig('radial_ave_U.png',dpi=400)
-plt.savefig('radial_ave_U.pdf')
-plt.savefig('radial_ave_U.eps')
+plt.savefig('radial_ave_U_up.png',dpi=400)
+plt.savefig('radial_ave_U_up.pdf')
+plt.savefig('radial_ave_U_up.eps')
