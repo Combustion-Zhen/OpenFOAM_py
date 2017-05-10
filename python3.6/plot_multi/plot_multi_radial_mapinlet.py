@@ -13,15 +13,18 @@ var = ['Z','T','CO']
 
 # case to plot
 # for different settings of Sct and Sc
-path_name_pre ='flamelet_table_chi0_ext_inlet_'
+path_name_pre ='flt_chi_7_inlet_'
+path_name_mid ='map'
 path_name_second ='/postProcessing/'
 
 xD_name = []
 xD_value = []
 case_name = []
 data = {}
-for folder_name in glob.glob('{}*'.format(path_name_pre)):
-    case = folder_name[len(path_name_pre):]
+for folder_name in glob.glob('{0}*{1}*'.format(path_name_pre,
+                                               path_name_mid)):
+    case = folder_name[len(path_name_pre)
+                       :folder_name.find(path_name_mid)]
     case_name.append(case)
     for file_name in glob.glob('{0}{1}mean_xD*.csv'
                                .format(folder_name,
@@ -80,11 +83,8 @@ for i,v in enumerate(var):
         axes[i,j].plot(expr[z]['r'],expr[z][v],'ok',
                        label='Exp.',linewidth=1.5)
         for case in case_name:
-            pos_sc = case.find('_Sc')
-            str_label=("$\mathrm{{Sc}}_t\;{0}\;\mathrm{{Sc}}\;{1}$"
-                       .format(case[3:pos_sc],case[pos_sc+3:]))
             axes[i,j].plot(data[(case,z)]['r'],data[(case,z)][v],
-                           label=str_label,linewidth=1.5)
+                           label=case,linewidth=1.5)
     # ylabel, temperature has a unit
     if v == 'T':
         str_label=r"$\langle\tilde{{T}}\rangle\;(\mathrm{{K}})$"
@@ -121,9 +121,9 @@ plt.subplots_adjust(left    =margin_left/plot_width,
                     hspace  =space_height/plot_height)
 
 ## save plot
-plt.savefig('comp_radial_ave.png',dpi=400)
-plt.savefig('comp_radial_ave.pdf')
-plt.savefig('comp_radial_ave.eps')
+plt.savefig('comp_inlet_radial_ave.png',dpi=400)
+plt.savefig('comp_inlet_radial_ave.pdf')
+plt.savefig('comp_inlet_radial_ave.eps')
 
 # plot the rms
 # generate the figure
@@ -136,11 +136,8 @@ for i,v in enumerate(var):
         axes[i,j].plot(expr[z]['r'],expr[z][v+'rms'],'ok',
                        label='Exp.',linewidth=1.5)
         for case in case_name:
-            pos_sc = case.find('_Sc')
-            str_label=("$\mathrm{{Sc}}_t\;{0}\;\mathrm{{Sc}}\;{1}$"
-                       .format(case[3:pos_sc],case[pos_sc+3:]))
             axes[i,j].plot(data[(case,z)]['r'],data[(case,z)][v+'rms'],
-                           label=str_label,linewidth=1.5)
+                           label=case,linewidth=1.5)
     # ylabel, temperature has a unit
     if v == 'T':
         str_label=(r'$\langle\tilde{T}^{\prime\prime 2}'
@@ -178,6 +175,6 @@ plt.subplots_adjust(left    =margin_left/plot_width,
                     wspace  =space_width/plot_width,
                     hspace  =space_height/plot_height)
 
-plt.savefig('comp_radial_rms.png',dpi=400)
-plt.savefig('comp_radial_rms.pdf')
-plt.savefig('comp_radial_rms.eps')
+plt.savefig('comp_inlet_radial_rms.png',dpi=400)
+plt.savefig('comp_inlet_radial_rms.pdf')
+plt.savefig('comp_inlet_radial_rms.eps')
