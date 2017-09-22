@@ -24,10 +24,10 @@ import file_read as fr
 
 # direction of flow x: +/- 1 y: +/- 2 z: +/- 3
 flow_direct = 3
-flow_base_point = 0.0
 bulk_vel = 49.6
 patch_dir = 'fuel/'
 sim_time = 0.3
+center_loc = [0.0, 0.0, 0.0]
 dt = 2e-5
 
 if len(sys.argv) < 2:
@@ -74,7 +74,10 @@ pts = np.empty([pts_num,3])
 pts[:,1] = y[:pts_num]
 pts[:,2] = z[:pts_num]
 pts[:,0] = pts[:,axis]
-pts[:,axis] = flow_base_point
+pts[:,axis] = 0.0
+
+for j, loc in enumerate(center_loc):
+    pts[:,j] = pts[:,j] + loc
 
 # velocity
 # read in all velocity information
