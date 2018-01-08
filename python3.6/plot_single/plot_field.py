@@ -125,7 +125,7 @@ cax = plt.axes([(plot_width-margin_right+clb_left)/plot_width,
 cbar=plt.colorbar(cf1,cax=cax,ticks=np.arange(300,2200,200))
 
 # save plot
-plt.savefig('field.png',dpt=400)
+plt.savefig('field.png',dpi=400)
 plt.savefig('field.pdf')
 plt.savefig('field.eps')
 #plt.show()
