@@ -1,0 +1,237 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.4.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      sampleDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+surfaceFormat   raw;
+setFormat       raw;
+
+// interpolationScheme. choice of
+//      cell          : use cell-centre value only; constant over cells
+//                      (default)
+//      cellPoint     : use cell-centre and vertex values
+//      cellPointFace : use cell-centre, vertex and face values.
+//      pointMVC      : use point values only (Mean Value Coordinates)
+//      cellPatchConstrained : like 'cell' but uses cell-centre except on
+//                             boundary faces where it uses the boundary value.
+//                             For use with e.g. patchCloudSet.
+// 1] vertex values determined from neighbouring cell-centre values
+// 2] face values determined using the current face interpolation scheme
+//    for the field (linear, gamma, etc.)
+interpolationScheme cell;
+
+// Fields to sample.
+fields
+(
+// average of filtered value
+    UMean       UPrime2Mean
+);
+
+// Set sampling definition: choice of
+//      uniform             evenly distributed points on line
+//      face                one point per face intersection
+//      midPoint            one point per cell, inbetween two face intersections
+//      midPointAndFace     combination of face and midPoint
+//
+//      polyLine            specified points, not nessecary on line, uses
+//                          tracking
+//      cloud               specified points, uses findCell
+//      triSurfaceMeshPointSet  points of triSurface
+//
+// axis: how to write point coordinate. Choice of
+// - x/y/z: x/y/z coordinate only
+// - xyz: three columns
+//  (probably does not make sense for anything but raw)
+// - distance: distance from start of sampling line (if uses line) or
+//             distance from first specified sampling point
+//
+// type specific:
+//      uniform, face, midPoint, midPointAndFace : start and end coordinate
+//      uniform: extra number of sampling points
+//      polyLine, cloud: list of coordinates
+//      patchCloud: list of coordinates and set of patches to look for nearest
+//      patchSeed: random sampling on set of patches. Points slightly off
+//                 face centre.
+//sets
+//(
+//    axis 
+//    {
+//        type        face;
+//        axis        z;
+//        start       (0.0 0.0 0.0 );
+//        end         (0.0 0.0 $x80);
+//    }
+//
+//);
+xax
+{
+    type            face;
+    axis            x;
+}
+
+sets
+(
+    z-350
+    {
+        $xax;
+        start   (-0.013  0.0 -0.35);
+        end     (0.013   0.0 -0.35);
+    }
+    z-300
+    {
+        $xax;
+        start   (-0.013  0.0 -0.3);
+        end     (0.013   0.0 -0.3);
+    }
+    z-250
+    {
+        $xax;
+        start   (-0.013  0.0 -0.25);
+        end     (0.013   0.0 -0.25);
+    }
+    z-200
+    {
+        $xax;
+        start   (-0.013  0.0 -0.2);
+        end     (0.013   0.0 -0.2);
+    }
+    z-150
+    {
+        $xax;
+        start   (-0.013  0.0 -0.15);
+        end     (0.013   0.0 -0.15);
+    }
+    z-100
+    {
+        $xax;
+        start   (-0.013  0.0 -0.1);
+        end     (0.013   0.0 -0.1);
+    }
+    z-80
+    {
+        $xax;
+        start   (-0.013  0.0 -0.08);
+        end     (0.013   0.0 -0.08);
+    }
+    z-70
+    {
+        $xax;
+        start   (-0.013  0.0 -0.07);
+        end     (0.013   0.0 -0.07);
+    }
+    z-60
+    {
+        $xax;
+        start   (-0.013  0.0 -0.06);
+        end     (0.013   0.0 -0.06);
+    }
+    z-50
+    {
+        $xax;
+        start   (-0.013  0.0 -0.05);
+        end     (0.013   0.0 -0.05);
+    }
+    z-30
+    {
+        $xax;
+        start   (-0.013  0.0 -0.03);
+        end     (0.013   0.0 -0.03);
+    }
+    z-10
+    {
+        $xax;
+        start   (-0.013  0.0 -0.01);
+        end     (0.013   0.0 -0.01);
+    }
+    z5
+    {
+        $xax;
+        start   (0.00  0.0 0.005);
+        end     (0.014   0.0 0.005);
+    }
+    z10
+    {
+        $xax;
+        start   (0.00  0.0 0.01);
+        end     (0.015   0.0 0.01);
+    }
+    z20
+    {
+        $xax;
+        start   (0.00  0.0 0.02);
+        end     (0.018   0.0 0.02);
+    }
+    z30
+    {
+        $xax;
+        start   (0.00  0.0 0.03);
+        end     (0.02   0.0 0.03);
+    }
+    z42
+    {
+        $xax;
+        start   (-0.06  0.0 0.042);
+        end     (0.06   0.0 0.042);
+    }
+    z45
+    {
+        $xax;
+        start   (-0.06  0.0 0.045);
+        end     (0.06   0.0 0.045);
+    }
+    z50
+    {
+        $xax;
+        start   (-0.06  0.0 0.05);
+        end     (0.06   0.0 0.05);
+    }
+    z55
+    {
+        $xax;
+        start   (-0.06  0.0 0.055);
+        end     (0.06   0.0 0.055);
+    }
+    z60
+    {
+        $xax;
+        start   (-0.06  0.0 0.06);
+        end     (0.06   0.0 0.06);
+    }
+    z65
+    {
+        $xax;
+        start   (-0.06  0.0 0.065);
+        end     (0.06   0.0 0.065);
+    }
+    z70
+    {
+        $xax;
+        start   (-0.06  0.0 0.07);
+        end     (0.06   0.0 0.07);
+    }
+    z80
+    {
+        $xax;
+        start   (-0.06  0.0 0.08);
+        end     (0.06   0.0 0.08);
+    }
+    z90
+    {
+        $xax;
+        start   (-0.06  0.0 0.09);
+        end     (0.06   0.0 0.09);
+    }
+);
+
+// *********************************************************************** //
