@@ -1,5 +1,5 @@
 """
-Zhen Lu 2018/01/15
+Zhen Lu 2018/01/29
 
 python script to call paraview for sampling
 """
@@ -17,9 +17,6 @@ swBfoam.CellArrays = ['U', 'U_0', 'nuSgs', 'p']
 # get animation scene
 animationScene1 = GetAnimationScene()
 
-# update animation scene based on data timesteps
-animationScene1.UpdateAnimationUsingDataTimeSteps()
-
 animationScene1.GoToLast()
 
 # get active view
@@ -27,10 +24,14 @@ renderView1 = GetActiveViewOrCreate('RenderView')
 # uncomment following to set a specific view size
 # renderView1.ViewSize = [3248, 1905]
 
+# get color transfer function/color map for 'p'
+pLUT = GetColorTransferFunction('p')
+
 # show data in view
 swBfoamDisplay = Show(swBfoam, renderView1)
 
-swBfoam.CellArrays = ['U', 'U_0', 'nuSgs', 'p', 'UMean', 'UPrime2Mean']
+# Properties modified on swBd_L400_20M_FLAMELET_Bulk_SFCDfoam
+swBfoam.CellArrays = ['T', 'U', 'Z', 'alphaSgs', 'chi', 'muSgs', 'p', 'rho', 'thermo:alpha', 'thermo:mu', 'thermo:psi', 'varZ', 'CH4Mean', 'CH4Prime2Mean', 'CO2Mean', 'CO2Prime2Mean', 'COMean', 'COPrime2Mean', 'H2Mean', 'H2OMean', 'H2OPrime2Mean', 'H2Prime2Mean', 'N2Mean', 'N2Prime2Mean', 'NOMean', 'NOPrime2Mean', 'O2Mean', 'O2Prime2Mean', 'OHMean', 'OHPrime2Mean', 'TMean', 'TPrime2Mean', 'UMean', 'UPrime2Mean', 'ZMean', 'ZPrime2Mean', 'chiMean', 'chiPrime2Mean', 'varZMean', 'varZPrime2Mean']
 
 # create a new 'Plot Over Line'
 plotOverLine1 = PlotOverLine(Input=swBfoam,
@@ -56,3 +57,8 @@ for z in loc:
 
     # save data
     SaveData('sample_lines/z{:d}.csv'.format(z), proxy=plotOverLine1)
+
+# axial line
+plotOverLine1.Source.Point1 = [0.0, 0.0, 0.]
+plotOverLine1.Source.Point2 = [0.0, 0.0, 0.12]
+SaveData('sample_lines/axial.csv', proxy=plotOverLine1)
