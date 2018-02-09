@@ -4,8 +4,16 @@ Zhen Lu 2018/01/29
 python script to call paraview for sampling
 """
 import math
+import os
 #### import the simple module from the paraview
 from paraview.simple import *
+
+# output directory
+OUTDIR='sample_lines'
+
+if not os.path.exists(OUTDIR):
+    os.makedirs(OUTDIR)
+
 #### disable automatic camera reset on 'Show'
 paraview.simple._DisableFirstRenderCameraReset()
 
@@ -61,4 +69,4 @@ for z in loc:
 # axial line
 plotOverLine1.Source.Point1 = [0.0, 0.0, 0.]
 plotOverLine1.Source.Point2 = [0.0, 0.0, 0.12]
-SaveData('sample_lines/axial.csv', proxy=plotOverLine1)
+SaveData('{}/axial.csv'.format(OUTDIR), proxy=plotOverLine1)
