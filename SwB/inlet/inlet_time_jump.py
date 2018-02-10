@@ -16,5 +16,5 @@ time = np.array(time_list)
 
 tdiff = 2.0
 
-for folder in time[:-1]:
+for folder in time:
     os.rename('{:g}'.format(folder),'{:g}'.format(folder+tdiff))
