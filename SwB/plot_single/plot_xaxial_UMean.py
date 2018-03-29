@@ -27,7 +27,7 @@ def cm2inch(*tupl):
 z_loc = [42,45,50,55,60,65,70,80,90]
 
 # import experiment data
-data = np.genfromtxt('../Exp/div_15/PIV_138_4_set1.dat',delimiter=',')
+data = np.genfromtxt('../Exp/div_15/PIV_138_8_set1.dat',delimiter=',')
 
 x = list(set(data[:,0]))
 z = list(set(data[:,1]))
@@ -35,19 +35,11 @@ z.sort(reverse=True)
 
 z = np.flipud(z)
 
-ur1 = np.flipud(np.reshape(data[:,3],(len(z),len(x))))
-uz1 = np.flipud(np.reshape(data[:,4],(len(z),len(x))))
-ut1 = np.flipud(np.reshape(data[:,5],(len(z),len(x))))
+ur = np.flipud(np.reshape(data[:,3],(len(z),len(x))))
+uz = np.flipud(np.reshape(data[:,4],(len(z),len(x))))
+ut = np.flipud(np.reshape(data[:,5],(len(z),len(x))))
 
-# import experiment data
-data = np.genfromtxt('../Exp/div_15/PIV_138_8_set1.dat',delimiter=',')
-
-ur2 = np.flipud(np.reshape(data[:,3],(len(z),len(x))))
-uz2 = np.flipud(np.reshape(data[:,4],(len(z),len(x))))
-ut2 = np.flipud(np.reshape(data[:,5],(len(z),len(x))))
-
-u1 = np.empty(len(x))
-u2 = np.empty(len(x))
+u = np.empty(len(x))
 
 #uz_exp[i,1] = np.interp(0,x,uz[i,:])
 
@@ -114,41 +106,35 @@ for i in range(num_rows):
 
         # axial
         for m in range(len(x)):
-            u1[m] = np.interp(z_loc[k],z,uz1[:,m])
-            u2[m] = np.interp(z_loc[k],z,uz2[:,m])
+            u[m] = np.interp(z_loc[k],z,uz[:,m])
 
-        axz[i,j].plot(x,u1,'k.',label='Exp 4')
-        axz[i,j].plot(x,u2,'b.',label='Exp 8')
+        axz[i,j].plot(x,u,'b.',label='Exp')
         axz[i,j].plot(x_sim,uz_sim,'r-',label='Sim')
 
         # radial
         for m in range(len(x)):
-            u1[m] = np.interp(z_loc[k],z,ur1[:,m])
-            u2[m] = np.interp(z_loc[k],z,ur2[:,m])
+            u[m] = np.interp(z_loc[k],z,ur[:,m])
 
-        axr[i,j].plot(x,u1,'k.',label='Exp 4')
-        axr[i,j].plot(x,u2,'b.',label='Exp 8')
+        axr[i,j].plot(x,u,'b.',label='Exp')
         axr[i,j].plot(x_sim,ur_sim,'r-',label='Sim')
 
         # tangential
         for m in range(len(x)):
-            u1[m] = np.interp(z_loc[k],z,ut1[:,m])
-            u2[m] = np.interp(z_loc[k],z,ut2[:,m])
+            u[m] = np.interp(z_loc[k],z,ut[:,m])
 
-        axt[i,j].plot(x,-u1,'k.',label='Exp 4')
-        axt[i,j].plot(x,-u2,'b.',label='Exp 8')
+        axt[i,j].plot(x,-u,'b.',label='Exp')
         axt[i,j].plot(x_sim,ut_sim,'r-',label='Sim')
 
-        axz[i,j].text(5,5,'z={:g} mm'.format(z_loc[k]))
-        axr[i,j].text(5,5,'z={:g} mm'.format(z_loc[k]))
-        axt[i,j].text(5,5,'z={:g} mm'.format(z_loc[k]))
+        axz[i,j].text(5,10,'z={:g} mm'.format(z_loc[k]))
+        axr[i,j].text(5,3,'z={:g} mm'.format(z_loc[k]))
+        axt[i,j].text(5,8,'z={:g} mm'.format(z_loc[k]))
 
 axz[0,0].legend(
         ncol=2,frameon=False)
 axr[0,0].legend(
         ncol=2,frameon=False)
 axt[0,0].legend(
-        ncol=2,frameon=False)
+        ncol=1,frameon=False)
 
 figz.subplots_adjust(
         left = margin_left/plot_width,
@@ -178,9 +164,9 @@ figt.subplots_adjust(
         )
 
 for i in range(num_rows):
-    axz[i,0].set_ylabel(r'$u_z\;\mathrm{m/s}$')
-    axr[i,0].set_ylabel(r'$u_x\;\mathrm{m/s}$')
-    axt[i,0].set_ylabel(r'$u_y\;\mathrm{m/s}$')
+    axz[i,0].set_ylabel(r'$\langle u_z\rangle\;\mathrm{m/s}$')
+    axr[i,0].set_ylabel(r'$\langle u_r\rangle\;\mathrm{m/s}$')
+    axt[i,0].set_ylabel(r'$\langle u_t\rangle\;\mathrm{m/s}$')
 
 for i in range(num_cols):
     axz[-1,i].set_xlabel(r'$x\;\mathrm{mm}$')
@@ -190,6 +176,10 @@ for i in range(num_cols):
 axz[0,0].set_xlim(0,50)
 axt[0,0].set_xlim(0,50)
 axr[0,0].set_xlim(0,50)
+
+axz[0,0].set_ylim(-5,20)
+axt[0,0].set_ylim(-1,11)
+axr[0,0].set_ylim(-5,5)
 
 figz.savefig('uz.png')
 figr.savefig('ur.png')

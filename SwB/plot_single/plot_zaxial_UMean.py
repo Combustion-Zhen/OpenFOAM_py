@@ -29,7 +29,7 @@ def cm2inch(*tupl):
 data_sim = np.genfromtxt('sample_lines/axial.csv',delimiter=',',names=True)
 
 # import experiment data
-data = np.genfromtxt('../Exp/div_15/PIV_138_4_set1.dat',delimiter=',')
+data = np.genfromtxt('../Exp/div_15/PIV_138_8_set1.dat',delimiter=',')
 
 x = list(set(data[:,0]))
 z = list(set(data[:,1]))
@@ -42,21 +42,6 @@ uz_exp[:,0] = z
 
 for i in range(len(z)):
     uz_exp[i,1] = np.interp(0,x,uz[i,:])
-
-# import experiment data
-data = np.genfromtxt('../Exp/div_15/PIV_138_8_set1.dat',delimiter=',')
-
-x = list(set(data[:,0]))
-z = list(set(data[:,1]))
-z.sort(reverse=True)
-
-uz = np.reshape(data[:,4],(len(z),len(x)))
-
-uz_exp2 = np.zeros((len(z),2))
-uz_exp2[:,0] = z
-
-for i in range(len(z)):
-    uz_exp2[i,1] = np.interp(0,x,uz[i,:])
 
 # plot
 # figure and axes parameters
@@ -97,8 +82,7 @@ plot_height = (num_rows*subplot_height
 fig, ax = plt.subplots(figsize=cm2inch(plot_width,plot_height))
 
 ax.plot(data_sim['Points2']*1000,data_sim['UMean2'],'r-',label='Sim',lw=1)
-ax.plot(uz_exp[:,0],uz_exp[:,1],'b.',label='Exp 4')
-ax.plot(uz_exp2[:,0],uz_exp2[:,1],'k.',label='Exp 8')
+ax.plot(uz_exp[:,0],uz_exp[:,1],'b.',label='Exp')
 
 ax.set_xlim(0,125)
 ax.set_ylim(-4,16)
@@ -118,4 +102,4 @@ fig.subplots_adjust(
         )
 
 #plt.show()
-fig.savefig('uz_zaxis.pdf')
+fig.savefig('uz_zaxis.png')
