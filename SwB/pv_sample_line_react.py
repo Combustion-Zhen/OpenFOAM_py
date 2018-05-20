@@ -45,6 +45,8 @@ swBfoam.CellArrays = ['T', 'U', 'Z', 'alphaSgs', 'chi', 'muSgs', 'p', 'rho', 'th
 plotOverLine1 = PlotOverLine(Input=swBfoam,
     Source='High Resolution Line Source')
 
+plotOverLine1.Source.Resolution = 1000
+
 loc = [-350,-300,-250,-200,-150,-100,
        -80,-70,-60,-50,-30,-10,
        5,10,20,30,
@@ -69,4 +71,5 @@ for z in loc:
 # axial line
 plotOverLine1.Source.Point1 = [0.0, 0.0, 0.]
 plotOverLine1.Source.Point2 = [0.0, 0.0, 0.12]
+plotOverLine1.Source.Resolution = 1000
 SaveData('{}/axial.csv'.format(OUTDIR), proxy=plotOverLine1)

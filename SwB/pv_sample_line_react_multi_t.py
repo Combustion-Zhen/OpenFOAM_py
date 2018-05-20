@@ -14,7 +14,7 @@ from paraview.simple import *
 OUTDIR='sample_t'
 
 # start time for sampling
-t_strt = 0.5
+t_strt = 0.4
 
 # get the time list
 t_list = []
@@ -39,6 +39,8 @@ animationScene1 = GetAnimationScene()
 
 # get data time step
 animationScene1.UpdateAnimationUsingDataTimeSteps()
+
+swBfoam.SkipZeroTime = 0
 
 # go to the first time
 animationScene1.GoToFirst()
@@ -79,6 +81,12 @@ for i in range(len(t_list)):
     folder = '{0}{1:g}'.format(OUTDIR,time)
     if not os.path.exists(folder):
         os.makedirs(folder)
+
+    # axial line
+    plotOverLine1.Source.Point1 = [0.0, 0.0, 0.]
+    plotOverLine1.Source.Point2 = [0.0, 0.0, 0.12]
+    plotOverLine1.Source.Resolution = 1000
+    SaveData('{}/axial.csv'.format(folder), proxy=plotOverLine1)
     
     for z in loc:
         if z < 0:
@@ -91,7 +99,7 @@ for i in range(len(t_list)):
         # Properties modified on plotOverLine1.Source
         plotOverLine1.Source.Point1 = [-r, 0.0, z/1000.]
         plotOverLine1.Source.Point2 = [r, 0.0, z/1000.]
+        plotOverLine1.Source.Resolution = 1000
 
         # save data
         SaveData('{0}/z{1:d}.csv'.format(folder,z), proxy=plotOverLine1)
-
