@@ -29,6 +29,7 @@ for folder in glob.glob('[0-9]*'):
     t_list.append(time)
 
 t_list.sort()
+t_list.remove(0)
 
 z_loc = [42,45,50,55,60,65,70,80,90]
 
@@ -84,7 +85,7 @@ for i in range(nrows):
     for j in range(ncols):
         k = ncols*i+j
         
-        for l in range(t_ul):
+        for l in range(len(t_list)):
             time = t_list[-1-l]
             folder = 'sample_t{:g}'.format(time)
             print(time)

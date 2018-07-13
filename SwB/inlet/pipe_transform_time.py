@@ -24,11 +24,11 @@ import file_read as fr
 
 # direction of flow x: +/- 1 y: +/- 2 z: +/- 3
 flow_direct = 3
-bulk_vel = 49.6
+bulk_vel = 21.96
 patch_dir = 'fuel/'
-sim_time = 0.3
+sim_time = 0.1
 center_loc = [0.0, 0.0, 0.0]
-dt = 2e-5
+dt = 1e-5
 
 if len(sys.argv) < 2:
     raise RuntimeError('Please provide start_time')
