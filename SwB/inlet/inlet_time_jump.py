@@ -14,7 +14,7 @@ for folder_name in glob.glob('[0-9]*'):
 time_list.sort()
 time = np.array(time_list)
 
-tdiff = 2.0
+tdiff = -0.5
 
 for folder in time:
     os.rename('{:g}'.format(folder),'{:g}'.format(folder+tdiff))
