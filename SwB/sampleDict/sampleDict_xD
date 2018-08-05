@@ -35,7 +35,7 @@ interpolationScheme cell;
 fields
 (
 // instantaneous data for scatter plot and conditional mean
-    Z varZ T CH4 O2 H2O CO2 CO OH H2 NO chi
+    Z T H2O CO2 CO OH chi
 );
 
 // Set sampling definition: choice of
@@ -84,60 +84,35 @@ xDPlane
 
 surfaces
 (
-    z40
+    z5
     {
         $xDPlane;
-        basePoint   ( 0 0 0.04 );
+        basePoint   ( 0 0 0.005 );
     }
-    z42
+    z20
     {
         $xDPlane;
-        basePoint   ( 0 0 0.042 );
+        basePoint   ( 0 0 0.020 );
     }
-    z45
+    z35
     {
         $xDPlane;
-        basePoint   ( 0 0 0.045 );
+        basePoint   ( 0 0 0.035 );
     }
     z50
     {
         $xDPlane;
-        basePoint   ( 0 0 0.05 );
-    }
-    z55
-    {
-        $xDPlane;
-        basePoint   ( 0 0 0.055 );
-    }
-    z60
-    {
-        $xDPlane;
-        basePoint   ( 0 0 0.06 );
+        basePoint   ( 0 0 0.050 );
     }
     z65
     {
         $xDPlane;
         basePoint   ( 0 0 0.065 );
     }
-    z70
-    {
-        $xDPlane;
-        basePoint   ( 0 0 0.07 );
-    }
     z80
     {
         $xDPlane;
-        basePoint   ( 0 0 0.08 );
-    }
-    z90
-    {
-        $xDPlane;
-        basePoint   ( 0 0 0.09 );
-    }
-    z100
-    {
-        $xDPlane;
-        basePoint   ( 0 0 0.1 );
+        basePoint   ( 0 0 0.080 );
     }
 );
 
