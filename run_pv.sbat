@@ -1,0 +1,18 @@
+#!/bin/bash -l
+#SBATCH --partition=workq 
+#SBATCH --nodes=1                     # Specify number of nodes
+#SBATCH --ntasks-per-node=4           # Specify number of tasks (processes) per node
+#SBATCH --exclusive                   # Specify exclusive access to nodes nobody will interfere with us
+#SBATCH --time=00:30:00
+#SBATCH --job-name=pvbatch            # Specify the job name syntax ApplicatioName-JobName
+#SBATCH --output=paraview.%j.out      # Specify File to which standard out will be written
+#SBATCH --error=paraview.%j.err       # Specify File to which standard err will be written
+
+
+cd /scratch/$USER/programmable_pipelines
+#NOTE: don't module purge
+module use /sw/vis/xc40.modules
+module load ParaView/5.4.1-CrayGNU-2017.12.KSL-server-mesa
+
+srun pvbatch --use-offscreen-rendering Scripts/disktubes_animation.py
+
