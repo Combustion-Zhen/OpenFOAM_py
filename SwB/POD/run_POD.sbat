@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH --account=k1164
+#SBATCH --job-name=POD_test
+##SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH -e job%J.err
+#SBATCH -o job%J.out
+#SBATCH --partition=debug
+#SBATCH --time=00:10:00
+
+OMP_NUM_THREADS=1
+
+module load python/3.6.4
+
+NUM_SNAPSHOTS=10
+NUM_MODES=7
+
+python clip_filter_var.py $NUM_SNAPSHOTS
+python clip_filter_loc.py $NUM_SNAPSHOTS
+python POD_snapshot.py $NUM_SNAPSHOTS $NUM_MODES
