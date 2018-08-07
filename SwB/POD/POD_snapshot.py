@@ -20,13 +20,13 @@ matrix_cov = np.empty((file_number, file_number))
 
 for i in range(file_number):
     file_name = '.'.join([file_prefix,'{:d}'.format(i),file_suffix])
-    data_i = np.genfromtxt(file_name, delimiter=',')
+    data_i = np.genfromtxt(file_name, skip_header=1, delimiter=',')
     
     matrix_cov[i,i] = np.sum( np.square(data_i) )
     
     for j in range(i+1,file_number):
         file_name = '.'.join([file_prefix,'{:d}'.format(j),file_suffix])
-        data_j = np.genfromtxt(file_name, delimiter=',')
+        data_j = np.genfromtxt(file_name, skip_header=1, delimiter=',')
         
         matrix_cov[i,j] = np.sum( np.multiply( data_i, data_j ) )
         matrix_cov[j,i] = matrix_cov[i,j]
@@ -44,7 +44,7 @@ modes = np.zeros([data_size, mode_number])
 
 for i in range(file_number):
     file_name = '.'.join([file_prefix,'{:d}'.format(i),file_suffix])
-    data = np.genfromtxt(file_name, delimiter=',').flatten()
+    data = np.genfromtxt(file_name, skip_header=1, delimiter=',').flatten()
     
     for j in range(mode_number):
         modes[:,j] += data*v[i,j]
@@ -52,13 +52,18 @@ for i in range(file_number):
 for j in range(mode_number):
     modes[:,j] /= sigma[j]
 
+with open(file_name,'r') as f:
+    var_names = f.readline().rstrip('\n')
+
 # save the modes
 for j in range(mode_number):
     file_name = '.'.join(['POD_mode','{:d}'.format(j),file_suffix])
     np.savetxt(file_name,
                modes[:,j].reshape(data_shape),
                fmt='%12.5e',
-               delimiter=','
+               delimiter=',',
+               header=var_names,
+               comments=''
               )
 
 # coefficients, eigenvalues, sigma, and the Vij of the first X modes

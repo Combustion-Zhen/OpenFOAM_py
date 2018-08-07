@@ -31,5 +31,7 @@ for i in range(file_number):
     np.savetxt('.'.join(['POD_data','{:d}'.format(i),file_suffix]),
                data,
                fmt='%12.5e',
-               delimiter=','
+               delimiter=',',
+               header=names,
+               comments=''
               )
