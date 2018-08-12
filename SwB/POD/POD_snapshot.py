@@ -33,9 +33,14 @@ for i in range(file_number):
 
 e, v = linalg.eig(matrix_cov)
 
-eig = np.real(e)
+# sort eigenvalues and eigenvectors
+idx = np.argsort( e )[::-1]
 
+# the matrix is symmetric, all eigenvalues are non-negative real
+eig = np.real(e)[idx]
 sigma = np.sqrt(eig)
+
+v = v[:,idx]
 
 data_shape = data_j.shape
 data_size = data_j.size
