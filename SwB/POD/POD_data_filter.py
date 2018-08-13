@@ -34,7 +34,7 @@ for j in range(3):
     data[:,j] = data_raw['Points{:d}'.format(j)][region]
 np.savetxt('clip_xyz.csv',
            data,
-           fmt='%12.5e',
+           fmt='%12.6e',
            delimiter=',',
            header=','.join([ 'Points{:d}'.format(j) for j in range(3) ]),
            comments=''
@@ -51,7 +51,7 @@ for i in range(file_number):
 
     np.savetxt('.'.join([file_prefix,'{:d}'.format(i),file_suffix]),
                data,
-               fmt='%12.5e',
+               fmt='%12.6e',
                delimiter=',',
                header = names,
                comments = ''
@@ -64,7 +64,7 @@ for i in range(file_number):
 data_ave /= float( file_number )
 np.savetxt('clip_ave.csv',
            data_ave,
-           fmt='%12.5e',
+           fmt='%12.6e',
            delimiter=',',
            header = names,
            comments = ''
