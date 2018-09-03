@@ -22,7 +22,7 @@ data_raw = np.genfromtxt(file_name, names=True, delimiter=',')
 z = data_raw['Points2']
 r = np.sqrt( np.square( data_raw['Points0'] ) + np.square( data_raw['Points1'] ) )
 
-region = np.any( np.array([ z >= 0.04, r <= (13.6+14.4*z/0.04)/1000. ]), axis = 0 )
+region = np.any( np.array([ z >= 0.04, z < 0., r <= (13.6+14.4*z/0.04)/1000. ]), axis = 0 )
 
 data_len = sum(region)
 
