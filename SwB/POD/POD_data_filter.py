@@ -12,7 +12,8 @@ file_number = args.N
 file_prefix = 'clip_POD0'
 file_suffix = 'csv'
 
-var_names = ['U0', 'U1', 'U2', 'p', 'Z']
+var_names = ['U0', 'U1', 'U2', 'p', 'Z', 'varZ', 'chi',
+             'vorticity0', 'vorticity1', 'vorticity2', 'Lambda2']
 names = ','.join(var_names)
 
 # get data size and coordinate information
@@ -22,7 +23,7 @@ data_raw = np.genfromtxt(file_name, names=True, delimiter=',')
 z = data_raw['Points2']
 r = np.sqrt( np.square( data_raw['Points0'] ) + np.square( data_raw['Points1'] ) )
 
-region = np.any( np.array([ z >= 0.04, z < 0., r <= (13.6+14.4*z/0.04)/1000. ]), axis = 0 )
+region = np.any( np.array([ z >= 0.04, z< 0., r <= (13.6+14.4*z/0.04)/1000. ]), axis = 0 )
 
 data_len = sum(region)
 
