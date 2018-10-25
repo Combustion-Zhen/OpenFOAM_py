@@ -87,7 +87,7 @@ surfaceVectors1.SelectInputVectors = ['POINTS', 'UMean_average']
 maskPoints1 = MaskPoints(Input=surfaceVectors1)
 
 # Properties modified on maskPoints1
-maskPoints1.OnRatio = 50
+maskPoints1.OnRatio = 100
 
 # create a new 'Stream Tracer With Custom Source'
 streamTracerWithCustomSource1 = StreamTracerWithCustomSource(
@@ -139,11 +139,11 @@ uLUTColorBar.CustomLabels = np.linspace(0,30,num=7)
 
 uLUTColorBar.Title = '$v\;(\mathrm{m/s})$'
 uLUTColorBar.ComponentTitle = ''
-uLUTColorBar.TitleFontSize = 48
+uLUTColorBar.TitleFontSize = 72
 uLUTColorBar.TitleFontFamily = 'Times'
 uLUTColorBar.TitleColor = [0.0, 0.0, 0.0]
 
-uLUTColorBar.LabelFontSize = 48
+uLUTColorBar.LabelFontSize = 72
 uLUTColorBar.LabelFontFamily = 'Times'
 uLUTColorBar.LabelColor = [0.0, 0.0, 0.0]
 
