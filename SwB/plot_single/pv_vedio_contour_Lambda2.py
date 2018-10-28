@@ -146,7 +146,7 @@ annotateTimeFilter1Display.WindowLocation = 'LowerRightCorner'
 
 # camera placement for renderView1
 renderView1.CameraPosition = [-0.08, 0.0, 0.07]
-renderView1.CameraFocalPoint = [0.0, 0.0, 0.04]
+renderView1.CameraFocalPoint = [0.0, 0.0, 0.05]
 renderView1.CameraViewUp = [0.0, 1.0, 1.0]
 renderView1.CameraViewAngle = 75
 

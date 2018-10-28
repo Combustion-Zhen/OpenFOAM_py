@@ -121,7 +121,7 @@ tLUTColorBar.LabelColor = [0.0, 0.0, 0.0]
 annotateTimeFilter1 = AnnotateTimeFilter(Input=clip3)
 
 # Properties modified on annotateTimeFilter1
-annotateTimeFilter1.Format = 'Time: %.4f'
+annotateTimeFilter1.Format = 'Time: %.4f s'
 
 # Properties modified on annotateTimeFilter1
 annotateTimeFilter1.Shift = -1.3
@@ -136,7 +136,7 @@ annotateTimeFilter1Display = Show(annotateTimeFilter1, renderView1)
 annotateTimeFilter1Display.Color = [0.0, 0.0, 0.0]
 
 # Properties modified on annotateTimeFilter1Display
-annotateTimeFilter1Display.FontSize = 54
+annotateTimeFilter1Display.FontSize = 48
 
 # Properties modified on annotateTimeFilter1Display
 #annotateTimeFilter1Display.WindowLocation = 'UpperCenter'
@@ -144,15 +144,15 @@ annotateTimeFilter1Display.WindowLocation = 'LowerRightCorner'
 
 # camera placement for renderView1
 renderView1.CameraPosition = [-0.08, 0.0, 0.07]
-renderView1.CameraFocalPoint = [0.0, 0.0, 0.04]
+renderView1.CameraFocalPoint = [0.0, 0.0, 0.05]
 renderView1.CameraViewUp = [0.0, 1.0, 1.0]
 renderView1.CameraViewAngle = 75
 
-#SaveScreenshot('fig_T.png', 
-#               renderView1, 
-#               ImageResolution=[1800, 1800], 
-#               OverrideColorPalette='WhiteBackground')
-
+SaveScreenshot('fig_T.png', 
+               renderView1, 
+               ImageResolution=[1800, 1800], 
+               OverrideColorPalette='WhiteBackground')
+#
 ## save animation
 #SaveAnimation('test_T_volume.avi', 
 #              renderView1,
@@ -160,10 +160,11 @@ renderView1.CameraViewAngle = 75
 #              OverrideColorPalette='WhiteBackground',
 #              FrameRate=24,
 #              FrameWindow=[0, 47])
-# save animation
-SaveAnimation('vedio_T.png', 
-              renderView1,
-              ImageResolution=[1800, 1800],
-              OverrideColorPalette='WhiteBackground',
-              FrameRate=24,
-              FrameWindow=[0, 98])
+#
+## save animation
+#SaveAnimation('vedio_T.png', 
+#              renderView1,
+#              ImageResolution=[1800, 1800],
+#              OverrideColorPalette='WhiteBackground',
+#              FrameRate=24,
+#              FrameWindow=[0, 98])
