@@ -1,3 +1,7 @@
+"""
+Zhen Lu 2018
+make video with iso-contour of pressure
+"""
 #### import the simple module from the paraview
 from paraview.simple import *
 #### disable automatic camera reset on 'Show'
